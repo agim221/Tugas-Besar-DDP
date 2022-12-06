@@ -23,13 +23,46 @@ int pilihOpsiModePermainan();
 int pilihOpsiPanduanBermain();
 
 void tampilkanMenu();
+/* Modul ini digunakan untuk menampilkan Menu Utama
+I.S : Belum menampilkan tampilan menu utama
+F.S : Menampilkan tampilan menu utama dengan format :
+             	Menu
+	1. Mulai permainan
+	2. Lanjutkan permainan
+	3. Cara bermain
+	0. Keluar
+*/
 
 void tampilkanOpsiJumlahPemain();
+/* Modul ini digunakan untuk menampilkan tampilan menu jumlah pemain
+I.S : Belum menampilkan tampilan menu jumlah pemain
+F.S : Menampilkan tampilan menu jumlah pemain dengan format:
+            Jumlah Pemain
+	1. Lawan komputer
+	2. Lawan pemain
+	3. Kembali
+*/
 
 void tampilkanOpsiModePermainan();
-
-void tampilkanOpsiPanduanBermain();
-
+/* Modul ini digunakan untuk menampilkan tampilan mode permainan pada layar
+I.S : Belum menampilkan tampilan opsi mode permainan
+F.S : menampilkan tampilan menu jumlah pemain dengan format :
+	     Mode Permainan
+         1. 3 x 3
+         2. 5 x 5
+         3. 7 x 7
+         0. Kembali
+*/
+void tampilkanOpsiCaraBermain();
+/*Modul ini digunakan untuk menampilkan tampilan cara bermain ke layar
+I.S : Belum menampilkan tampilan opsi cara bermain
+F.S : Menampilkan tampilan opsi cara bermain dan penjelasan cara bermain dengan format :
+        Penjelasan Cara bermain
+       1…..
+       2…..
+       3…..
+       0. Kembali
+*/
 int main() {
 
 	do {
@@ -180,10 +213,10 @@ int pilihOpsiModePermainan() {
 	return 0;
 }
 
-void tampilkanOpsiPanduanBermain() {
+void tampilkanOpsiCaraBermain() {
 	system("cls");
 	printf("\n\n ========================================= ");
-	printf("\n||            Panduan Bermain            ||");
+	printf("\n||            Cara Bermain               ||");
 	printf("\n =========================================");
 	printf("\n|||||||||__________________________|||||||||");
 	printf("\n||||||||____________________________||||||||");
@@ -205,13 +238,13 @@ void tampilkanOpsiPanduanBermain() {
 	printf("\n|||||||||_________________________|||||||||");
 	printf("\n||||||||||_______________________||||||||||");
 	printf("\n ========================================= ");
-	printf("\n||            Panduan Bermain            ||");
+	printf("\n||            Cara Bermain               ||");
 	printf("\n ========================================= ");
 }
 
-int pilihOpsiPanduanBermain() {
+int pilihOpsiCaraBermain() {
 	 do {
-	 	tampilkanOpsiPanduanBermain();
+	 	tampilkanOpsiCaraBermain();
 		 inputOpsiMenu(&opsi);
 		switch(opsi) {
 			default:
