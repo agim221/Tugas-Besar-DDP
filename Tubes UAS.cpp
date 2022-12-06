@@ -14,13 +14,24 @@ typedef struct {
 int opsi, jumlahPemain = 0, modePermainan = 0;
 
 void inputOpsiMenu(int *inpt);
-/*Memasukan nilai untuk memilih menu*/
+/* Modul ini untuk memasukan nilai ke dalam variabel opsi untuk yang di tampilkan di layar
+I.S : Nilai variabel opsi belum terdefinisi
+F.S : Nilai variabel opsi sudah terdefinisi
+*/
 
 int pilihOpsiJumlahPemain();
+/* Modul ini berfungsi untuk memilih opsi yang ada, seperti untuk memilih menu yang ada, memilih jumlah pemain, 
+apakah ingin melawan komputer atau pemain, untuk kembali ke menu sebelumnya, dan mengembalikan nilai jumlah 
+*/
 
 int pilihOpsiModePermainan();
+/* Modul ini berguna untuk memilih opsi yang ada seperti untuk memilih menu yang ada,memilih mode permainan, 
+apakah ingin bermain dengan papan 3x3, 5x5,7x7, untuk kembali ke menu sebelumnya, dan mengembalikan nilai mode permainan
+/*
 
 int pilihOpsiPanduanBermain();
+/* Modul ini berguna untuk memilih opsi yang ada dalam tampilan dan mengembalikan nilai cara bermain
+*/
 
 void tampilkanMenu();
 /* Modul ini digunakan untuk menampilkan Menu Utama
