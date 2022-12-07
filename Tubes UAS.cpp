@@ -37,7 +37,7 @@ int pilihOpsiModePermainan();
 apakah ingin bermain dengan papan 3x3, 5x5,7x7, untuk kembali ke menu sebelumnya, dan mengembalikan nilai mode permainan
 /*
 
-int pilihOpsiPanduanBermain();
+int pilihOpsiCaraBermain();
 /* Modul ini berguna untuk memilih opsi yang ada dalam tampilan dan mengembalikan nilai cara bermain
 */
 
