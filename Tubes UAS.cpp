@@ -103,7 +103,7 @@ int main() {
 			break;
 		case 2: /*lanjut game*/
 			break;
-		case 3: pilihOpsiPanduanBermain();
+		case 3: pilihOpsiCaraBermain();
 			break;
 		default:
 			printf("\nMasukan tidak valid");
