@@ -1,15 +1,23 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-typedef struct {
+typedef struct{ 
+   Char *nama;
+   Int skor;
+   Char tandaGiliran;
+}pemain
 
-} Player;
 
 typedef struct {
-	int skorTertinggi;
-	int modePermainan;
-	
-} Game;
+   Int skorTertinggi;
+   Int ronde;
+   Int ukuranPapan;
+   Int modePermainan;
+   Int syaratMenang;
+   Int menang;
+   Int papanTerisi;
+}game
+
 
 int opsi, jumlahPemain = 0, modePermainan = 0;
 
