@@ -9,7 +9,7 @@ typedef struct{
    int skor = 99;;
 } Pemain;
 
-struct {
+typedef struct {
    int skorTertinggi;
    int ronde;
    int modePermainan;
@@ -19,11 +19,13 @@ struct {
    int papanTerisi;
    int pemainAktif = 1;
    char tanda = 'O';
-} game;
+} Game;
+Game game;
 
-struct {
+typedef struct {
 	char isiPapan[7][7] = {" "};
-} papan;
+} Papan;
+Papan papan;
 
 int opsi;
 
@@ -354,7 +356,7 @@ void tampilkanPapan(Pemain pmn1, Pemain pmn2) {
 }
 
 void isiPapan(char tanda) {
-	int baris, kolom;x
+	int baris, kolom;
 	
 	printf("\nMasukan Baris : ");
 	scanf("%d", &baris);
@@ -412,4 +414,5 @@ int checkWinVertikalBawah(int i, int j, int k) {
 	return (papan.isiPapan[i][j] == game.tanda && checkWinHorizontalKanan(i + 1, j, k - 1));
 	}
 }
+
 
