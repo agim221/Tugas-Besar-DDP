@@ -4,9 +4,11 @@
 #include<stdlib.h>
 #include<math.h>
 
+
+int test;
 typedef struct{ 
-   char nama[99] = "test";
-   int skor = 99;;
+   char nama[99];
+   int skor;
 } Pemain;
 
 typedef struct {
@@ -17,13 +19,13 @@ typedef struct {
    int syaratMenang;
    int menang;
    int papanTerisi;
-   int pemainAktif = 1;
-   char tanda = 'O';
+   int pemainAktif;
+   char tanda;
 } Game;
 Game game;
 
 typedef struct {
-	char isiPapan[7][7] = {" "};
+	char isiPapan[7][7];
 } Papan;
 Papan papan;
 
@@ -99,10 +101,16 @@ void isiPapan(char tanda);
 
 void gantiGiliran();
 
+
+//algoritma checkwin
 int checkWinHorizontalKanan(int i, int j, int k);
 int checkWinHorizontalKiri(int i, int j, int k);
 int checkWinVertikalAtas(int i, int j, int k);
 int checkWinVertikalBawah(int i, int j, int k);
+int checkWinDiagonalKananAtas(int i, int j, int k);
+int checkWinDiagonalKananBawah(int i, int j, int k);
+int checkWinDiagonalKiriAtas(int i, int j, int k);
+int checkWinDiagonalKiriBawah(int i, int j, int k);
 
 int main() {
 	Pemain pemain1;
@@ -122,7 +130,10 @@ int main() {
 			} else {
 			game.modePermainan = pilihOpsiModePermainan();
 			game.syaratMenang = game.modePermainan - trunc(game.modePermainan/3.5);
-			printf("\n%d\n", game.syaratMenang);
+			game.pemainAktif = 1;
+			game.tanda = 'O';
+			game.menang = 0;
+			game.ronde = 0;
 			opsi = 2;
 			}
 		}
@@ -344,7 +355,7 @@ void tampilkanPapan(Pemain pmn1, Pemain pmn2) {
 			}
 		}
 		
-		if(i % 3 == 2) k++;
+		if(i % 4 == 2) k++;
 		
 	}
 		
@@ -357,7 +368,8 @@ void tampilkanPapan(Pemain pmn1, Pemain pmn2) {
 
 void isiPapan(char tanda) {
 	int baris, kolom;
-	
+	int test;
+	                                  
 	printf("\nMasukan Baris : ");
 	scanf("%d", &baris);
 	printf("\nMasukan kolom : ");
@@ -365,8 +377,16 @@ void isiPapan(char tanda) {
 		
 	if(papan.isiPapan[baris - 1][kolom - 1] != 'X' && papan.isiPapan[baris][kolom] != 'O') {
 		papan.isiPapan[baris - 1][kolom - 1] = tanda;
-		if(game.menang != 1) game.menang = checkWinHorizontalKanan(baris - 1, kolom - 1, game.syaratMenang);
-		printf("\ngame menang : %d\n", game.menang);
+		printf("%c", papan.isiPapan[baris - 1][kolom - 1]);
+		scanf("%d", &test);
+//		if(game.menang != 1) game.menang = checkWinHorizontalKanan(baris - 1, kolom - 1, game.syaratMenang);
+		if(game.menang != 1) game.menang = checkWinHorizontalKiri(baris - 1, kolom - 1, 3);
+//		if(game.menang != 1) game.menang = checkWinVertikalAtas(baris - 1, kolom - 1, game.syaratMenang);
+//		if(game.menang != 1) game.menang = checkWinVertikalBawah(baris - 1, kolom - 1, game.syaratMenang);
+//		if(game.menang != 1) game.menang = checkWinDiagonalKananAtas(baris - 1, kolom - 1, game.syaratMenang);
+//		if(game.menang != 1) game.menang = checkWinDiagonalKananBawah(baris - 1, kolom - 1, game.syaratMenang);
+//		if(game.menang != 1) game.menang = checkWinDiagonalKiriAtas(baris - 1, kolom - 1, game.syaratMenang);
+//		if(game.menang != 1) game.menang = checkWinDiagonalKiriBawah(baris - 1, kolom - 1, game.syaratMenang);
 		game.papanTerisi++;
 	} else {
 		printf("\nTidak valid\n");
@@ -375,7 +395,7 @@ void isiPapan(char tanda) {
 
 void gantiGiliran() {
 	if(game.pemainAktif == 1) {
-				game.tanda = 'X';
+				game.tanda = 'O';
 				game.pemainAktif = 2;
 		} else {
 				game.tanda = 'O';
@@ -395,6 +415,8 @@ int checkWinHorizontalKiri(int i, int j, int k) {
 	if(k == 0) {
 		return 1;
 	} else {
+	printf("\n isi : %c\n", papan.isiPapan[i][j]);
+	scanf("%d", &test);
 	return (papan.isiPapan[i][j] == game.tanda && checkWinHorizontalKanan(i, j - 1, k - 1));
 	}
 }
@@ -415,4 +437,35 @@ int checkWinVertikalBawah(int i, int j, int k) {
 	}
 }
 
+int checkWinDiagonalKananAtas(int i, int j, int k) {
+	if(k == 0) {
+		return 1;
+	} else {
+	return (papan.isiPapan[i][j] == game.tanda && checkWinHorizontalKanan(i - 1, j + 1, k - 1));
+	}
+}
+
+int checkWinDiagonalKananBawah(int i, int j, int k) {
+	if(k == 0) {
+		return 1;
+	} else {
+	return (papan.isiPapan[i][j] == game.tanda && checkWinHorizontalKanan(i + 1, j + 1, k - 1));
+	}
+}
+
+int checkWinDiagonalKiriAtas(int i, int j, int k) {
+	if(k == 0) {
+		return 1;
+	} else {
+	return (papan.isiPapan[i][j] == game.tanda && checkWinHorizontalKanan(i - 1, j - 1, k - 1));
+	}
+}
+
+int checkWinDiagonalKiriBawah(int i, int j, int k) {
+	if(k == 0) {
+		return 1;
+	} else {
+	return (papan.isiPapan[i][j] == game.tanda && checkWinHorizontalKanan(i + 1, j - 1, k - 1));
+	}
+}
 
