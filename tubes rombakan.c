@@ -103,6 +103,8 @@ F.S = Nama pemain sudah di inputkan kedalam variabel pemain
 
 void inputNamaPemain2(Pemain *pmn2);
 
+void tampilkanInputPemain(Pemain *pmn1, Pemain *pmn2);
+
 int main() {
 	do{
 		tampilkanMenu();
