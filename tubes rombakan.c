@@ -430,7 +430,7 @@ int checkWinDiagonalKiri(int i, int j, int k) {
 
 void gantiGiliran() {
 	if(game.pemainAktif == 1) {
-				game.tanda = 'O';
+				game.tanda = 'X';
 				game.pemainAktif = 2;
 		} else {
 				game.tanda = 'O';
