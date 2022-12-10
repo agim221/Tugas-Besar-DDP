@@ -95,6 +95,14 @@ void isiPapan(char tanda);
 
 void gantiGiliran();
 
+void inputNamaPemain(Pemain *pmn1);
+/*Modul ini berfungsi untuk menginputkan nama Pemain 1 dan Pemain 2
+I.S = Nama pemain belum di inputkan
+F.S = Nama pemain sudah di inputkan kedalam variabel pemain
+*/
+
+void inputNamaPemain2(Pemain *pmn2);
+
 int main() {
 	do{
 		tampilkanMenu();
@@ -224,6 +232,8 @@ void tampilkanOpsiModePermainan() {
 	gotoxy(40,26);printf(" ========================================= ");
 }
 
+
+
 int menuModePermainan() {
 	tampilkanOpsiModePermainan();
 	inputOpsiMenu(&opsi);
@@ -258,6 +268,13 @@ int mulaiPermainan() {
 	game.tanda = 'O';
 	game.pemainAktif = '1';
 	game.menang = 0;
+    tampilkanInputPemain(&pemain1, &pemain2);
+    gotoxy(1,14);inputNamaPemain1(&pemain1);
+    tampilkanInputPemain(&pemain1, &pemain2);
+    gotoxy(1,15);inputNamaPemain2(&pemain2);
+    tampilkanInputPemain(&pemain1, &pemain2);
+    sleep(1);
+    system("cls");
 	tampilkanPapan(pemain1, pemain2);
 	
 	do {
@@ -266,6 +283,7 @@ int mulaiPermainan() {
 		tampilkanPapan(pemain1, pemain2);
 	} while(game.menang != 1 && game.papanTerisi < game.modePermainan * game.modePermainan);
 }
+
 
 
 void inputOpsiMenu(int *inpt) {
@@ -318,9 +336,23 @@ void tampilkanPapan(Pemain pmn1, Pemain pmn2) {
 	gotoxy(42 + ukuran*3 + ukuran, ukuran*3 + 8);printf("%d", game.skorTertinggi);
 }
 
+void tampilkanInputPemain(Pemain *pmn1, Pemain *pmn2) {
+	gotoxy(40,2);printf(" ========================================= ");
+	gotoxy(40,3);printf("||              Nama Pemain              ||");
+	gotoxy(40,4);printf(" =========================================");
+	gotoxy(40,5);printf("                                          ");
+	gotoxy(40,6);printf("                                           ");
+	gotoxy(40,7);printf("               Pemain 1 : %s               ",pmn1->nama);
+	gotoxy(40,8);printf("                                           ");
+	gotoxy(40,9);printf("               Pemain 2 : %s               ",pmn2->nama);
+	gotoxy(40,10);printf("                                           ");
+	gotoxy(40,11);printf(" ========================================= ");
+	gotoxy(40,12);printf("||              Nama Pemain              ||");
+	gotoxy(40,13);printf(" ========================================= ");
+}
+
 void isiPapan(char tanda) {
-	int baris, kolom;
-	                                  
+	int baris, kolom;                                  
 	printf("\nMasukan Baris : ");
 	scanf("%d", &baris);
 	printf("\nMasukan kolom : ");
@@ -342,4 +374,14 @@ void gantiGiliran() {
 				game.tanda = 'O';
 				game.pemainAktif = 1;
 		}
+}
+
+void inputNamaPemain1(Pemain *pmn1){
+printf ("Nama pemain 1 = ");
+scanf("%s",pmn1->nama);
+}
+
+void inputNamaPemain2(Pemain *pmn2){
+printf ("Nama pemain 2 = ");
+scanf("%s",pmn2->nama);
 }
