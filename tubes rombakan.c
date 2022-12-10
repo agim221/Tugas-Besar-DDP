@@ -103,7 +103,19 @@ F.S = Nama pemain sudah di inputkan kedalam variabel pemain
 
 void inputNamaPemain2(Pemain *pmn2);
 
+void inputNamaPemain1(Pemain *pmn2);
+
 void tampilkanInputPemain(Pemain *pmn1, Pemain *pmn2);
+
+int checkWinHorizontal(int i, int j, int k);
+
+int checkWinVertikal(int i, int j, int k);
+
+int checkWinDiagonal(int i, int j, int k);
+
+void checkWin(int klm, int brs, int syrt);
+
+void papanKosong();
 
 int main() {
 	do{
@@ -266,17 +278,20 @@ int mulaiPermainan() {
 	Pemain pemain1;
 	Pemain pemain2;
 	
+	//inisial statenya tapi nanti dibuat modul
 	game.syaratMenang = game.modePermainan - trunc(game.modePermainan/3.5);
 	game.tanda = 'O';
 	game.pemainAktif = '1';
 	game.menang = 0;
-    tampilkanInputPemain(&pemain1, &pemain2);
+	papanKosong();
+	tampilkanInputPemain(&pemain1, &pemain2);
     gotoxy(1,14);inputNamaPemain1(&pemain1);
     tampilkanInputPemain(&pemain1, &pemain2);
     gotoxy(1,15);inputNamaPemain2(&pemain2);
     tampilkanInputPemain(&pemain1, &pemain2);
     sleep(1);
     system("cls");
+    
 	tampilkanPapan(pemain1, pemain2);
 	
 	do {
@@ -293,6 +308,15 @@ void inputOpsiMenu(int *inpt) {
 	scanf("%d", &(*inpt));
 }
 
+void papanKosong() {
+	int i, j;
+	for (i = 0; i < game.modePermainan;i++) {
+		for(j = 0; j < game.modePermainan;j++) {
+			papan.isiPapan[i][j] = NULL;
+		}
+	}
+}
+
 void gotoxy(int x, int y){
 	COORD coord;
 	coord.X = x;
@@ -306,7 +330,7 @@ void tampilkanPapan(Pemain pmn1, Pemain pmn2) {
 	int ukuran = game.modePermainan;
 	int geserKanan;
 	
-	system("cls");
+	
 	gotoxy(42 + ukuran*3, 1);
 	printf("Round 1");
 	gotoxy(42 + ukuran*3, 3);
@@ -331,7 +355,7 @@ void tampilkanPapan(Pemain pmn1, Pemain pmn2) {
 		
 	}
 		
-	gotoxy(45 - ukuran, ukuran*3 + 6);printf("%s", pmn1.nama);
+	gotoxy(48 - ukuran, ukuran*3 + 6);printf("%s", pmn1.nama);
 	gotoxy(42 + ukuran*6 + ukuran/3, ukuran*3 + 6); printf("%s", pmn2.nama);
 	gotoxy(47-ukuran, ukuran*3 + 7);printf("%d", pmn1.skor);
 	gotoxy(44+ukuran*6 + ukuran/3, ukuran*3 + 7);printf("%d", pmn2.skor);
@@ -360,12 +384,48 @@ void isiPapan(char tanda) {
 	printf("\nMasukan kolom : ");
 	scanf("%d", &kolom);
 		
-	if(papan.isiPapan[baris - 1][kolom-1] != 'X' && papan.isiPapan[baris-1][kolom-1] != 'O') {
+	if(papan.isiPapan[baris - 1][kolom-1] != 'X' && papan.isiPapan[baris-1][kolom-1] != 'O' && baris > 0 && baris <= game.modePermainan && kolom > 0 && kolom <= game.modePermainan) {
+		system("cls");
 		papan.isiPapan[baris - 1][kolom - 1] = tanda;
 		game.papanTerisi++;
+		checkWin(baris - 1, kolom - 1, game.syaratMenang);
 	} else {
-		printf("\nTidak valid\n");
+		system("cls");
+		gotoxy(1, 24 + game.modePermainan);printf("\nTidak valid\n");
 	}
+}
+
+void checkWin(int brs, int klm, int syrt) {
+	int i = 0;
+	do {
+		if(game.menang != 1) game.menang = checkWinHorizontal(brs, 0 + i, syrt);
+		if(game.menang != 1) game.menang = checkWinVertikal(0 + i, klm, syrt);
+		if(game.menang != 1) game.menang = checkWinDiagonalKanan(brs + klm - i, 0 + i, syrt);
+		if(game.menang != 1) game.menang = checkWinDiagonalKiri(brs - klm + i, 0 + i, syrt);
+		i++;
+//		scanf("%d", &test);
+	} while (game.menang != 1 && syrt % 3 >= i);
+}
+
+
+int checkWinHorizontal(int i, int j, int k) {
+	if(k == 0) return 1;
+	else return (papan.isiPapan[i][j] == game.tanda && checkWinHorizontal(i, j + 1, k - 1));
+}
+
+int checkWinVertikal(int i, int j, int k) {
+	if(k == 0) return 1;
+	else return (papan.isiPapan[i][j] == game.tanda && checkWinVertikal(i + 1, j, k - 1));
+}
+
+int checkWinDiagonalKanan(int i, int j, int k) {
+	if(k == 0) return 1;
+	else return (papan.isiPapan[i][j] == game.tanda && checkWinDiagonalKanan(i - 1, j + 1, k - 1));
+}
+
+int checkWinDiagonalKiri(int i, int j, int k) {
+	if(k == 0) return 1;
+	else return (papan.isiPapan[i][j] == game.tanda && checkWinDiagonalKiri(i + 1, j + 1, k - 1));
 }
 
 void gantiGiliran() {
@@ -387,3 +447,5 @@ void inputNamaPemain2(Pemain *pmn2){
 printf ("Nama pemain 2 = ");
 scanf("%s",pmn2->nama);
 }
+
+
