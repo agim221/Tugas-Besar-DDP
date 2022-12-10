@@ -45,6 +45,8 @@ int menuJumlahPemain();
 
 int menuModePermainan();
 
+int mulaiPermainan();
+
 void tampilkanMenu();
 /* Modul ini digunakan untuk menampilkan Menu Utama
 I.S : Belum menampilkan tampilan menu utama
@@ -76,7 +78,7 @@ F.S : menampilkan tampilan menu jumlah pemain dengan format :
          3. 7 x 7
          0. Kembali
 */
-void tampilkanOpsiCaraBermain();
+//void tampilkanOpsiCaraBermain();
 /*Modul ini digunakan untuk menampilkan tampilan cara bermain ke layar
 I.S : Belum menampilkan tampilan opsi cara bermain
 F.S : Menampilkan tampilan opsi cara bermain dan penjelasan cara bermain dengan format :
@@ -94,16 +96,13 @@ void isiPapan(char tanda);
 void gantiGiliran();
 
 int main() {
-	Pemain pemain1;
-	Pemain pemain2;
-	
 	do{
-		system("cls");
 		tampilkanMenu();
 		inputOpsiMenu(&opsi);
+		system("cls");
 		switch(opsi) {
 			case 1: 
-				inProgram = menuJumlahPemain();
+				menuJumlahPemain();
 				break;
 			case 2:
 				
@@ -113,6 +112,8 @@ int main() {
 			case 0:
 				inProgram = 0;
 				break;
+			default:
+				gotoxy(1, 26);printf("\nTidak Valid");
 		}
 	} while(inProgram != 0);
 		return 0;
@@ -145,7 +146,6 @@ void tampilkanMenu() {
 }
 
 void tampilkanOpsiJumlahPemain() {
-	system("cls");
 	gotoxy(40,2);printf(" ========================================= ");
 	gotoxy(40,3);printf("||               Jumlah Pemain           ||");
 	gotoxy(40,4);printf(" =========================================");
@@ -177,6 +177,7 @@ void tampilkanOpsiJumlahPemain() {
 int menuJumlahPemain() {
 	tampilkanOpsiJumlahPemain();
 	inputOpsiMenu(&opsi);
+	system("cls");
 	switch(opsi) {
 		case 1:
 			game.jumlahPemain = 1;
@@ -190,13 +191,12 @@ int menuJumlahPemain() {
 			return main();
 			break;
 		default: 
-			printf("\nTidak Valid");
+			gotoxy(1, 28);printf("\nTidak Valid");
 			return menuJumlahPemain();
 	}
 }
 
 void tampilkanOpsiModePermainan() {
-	system("cls");
 	gotoxy(40,2);printf(" ========================================= ");
 	gotoxy(40,3);printf("||            Mode Permainan             ||");
 	gotoxy(40,4);printf(" =========================================");
@@ -227,66 +227,46 @@ void tampilkanOpsiModePermainan() {
 int menuModePermainan() {
 	tampilkanOpsiModePermainan();
 	inputOpsiMenu(&opsi);
+	system("cls");
 	switch(opsi) {
 		case 1: 
 			game.modePermainan = 3;
+			return mulaiPermainan();
 			break;
 		case 2:
 			game.modePermainan = 5;
+			return mulaiPermainan();
 			break;
 		case 3:
 			game.modePermainan = 7;
+			return mulaiPermainan();
 			break;
 		case 0: 
 			game.jumlahPemain = 0;
 			return menuJumlahPemain();
 		default:
-			printf("\nTidak Valid");
+			gotoxy(1, 28);printf("\nTidak Valid");
 			return menuModePermainan(); 
 	} 
 }
 
-void tampilkanOpsiCaraBermain() {
-	system("cls");
-	gotoxy(45, 2);printf(" ========================================= ");
-	printf("||            Cara Bermain               ||");
-	printf(" =========================================");
-	printf("|||||||||__________________________|||||||||");
-	printf("||||||||____________________________||||||||");
-	printf("|||||||______________________________|||||||");
-	printf("||||||________________________________||||||");
-	printf("|||||                                 |||||");
-	printf("||||                                   ||||");
-	printf("|||                                     |||");
-	printf("|||                                     |||");
-	printf("|||                                     |||");
-	printf("|||                                     |||");
-	printf("|||                                     |||");
-	printf("|||                                     |||");
-	printf("||||                                   ||||");
-	printf("|||||          0.    Kembali          |||||");
-	printf("||||||                               ||||||");
-	printf("|||||||_____________________________|||||||");
-	printf("||||||||___________________________||||||||");
-	printf("|||||||||_________________________|||||||||");
-	printf("||||||||||_______________________||||||||||");
-	printf(" ========================================= ");
-	printf("||            Cara Bermain               ||");
-	printf(" ========================================= ");
+int mulaiPermainan() {
+	Pemain pemain1;
+	Pemain pemain2;
+	
+	game.syaratMenang = game.modePermainan - trunc(game.modePermainan/3.5);
+	game.tanda = 'O';
+	game.pemainAktif = '1';
+	game.menang = 0;
+	tampilkanPapan(pemain1, pemain2);
+	
+	do {
+		isiPapan(game.tanda);
+		gantiGiliran();
+		tampilkanPapan(pemain1, pemain2);
+	} while(game.menang != 1 && game.papanTerisi < game.modePermainan * game.modePermainan);
 }
 
-int pilihOpsiCaraBermain() {
-	 do {
-	 	tampilkanOpsiCaraBermain();
-		inputOpsiMenu(&opsi);
-		switch(opsi) {
-			default:
-				printf("Masukan Tidak Valid");
-			}
-	} while(opsi != 0);
-	opsi = 1;
-	return 0;
-}
 
 void inputOpsiMenu(int *inpt) {
 	printf("\n\nPilih Opsi Menu : ");
@@ -336,7 +316,6 @@ void tampilkanPapan(Pemain pmn1, Pemain pmn2) {
 	gotoxy(47-ukuran, ukuran*3 + 7);printf("%d", pmn1.skor);
 	gotoxy(44+ukuran*6 + ukuran/3, ukuran*3 + 7);printf("%d", pmn2.skor);
 	gotoxy(42 + ukuran*3 + ukuran, ukuran*3 + 8);printf("%d", game.skorTertinggi);
-	gotoxy(42+ukuran*3 + ukuran, ukuran*3 + 8 + 1);printf("\n test ;%c", papan.isiPapan[6][6]);
 }
 
 void isiPapan(char tanda) {
@@ -349,7 +328,7 @@ void isiPapan(char tanda) {
 		
 	if(papan.isiPapan[baris - 1][kolom-1] != 'X' && papan.isiPapan[baris-1][kolom-1] != 'O') {
 		papan.isiPapan[baris - 1][kolom - 1] = tanda;
-		printf("%c", papan.isiPapan[baris][kolom]);
+		game.papanTerisi++;
 	} else {
 		printf("\nTidak valid\n");
 	}
