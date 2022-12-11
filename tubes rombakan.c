@@ -310,9 +310,9 @@ int mulaiPermainan() {
 //	inputNamaPemain(pemain1, pemain2);
 	tampilkanInputPemain(pemain1, pemain2);
    	gotoxy(1,14);inputNamaPemain1(&pemain1);
-    tampilkanInputPemain(pemain1, pemain2);
-    gotoxy(1,15);inputNamaPemain2(&pemain2);
-    tampilkanInputPemain(pemain1, pemain2);
+    	tampilkanInputPemain(pemain1, pemain2);
+    	gotoxy(1,15);inputNamaPemain2(&pemain2);
+    	tampilkanInputPemain(pemain1, pemain2);
     	sleep(1);
 	
     system("cls");
