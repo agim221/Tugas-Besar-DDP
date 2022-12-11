@@ -4,12 +4,11 @@
 #include<stdlib.h>
 #include<math.h>
 
-
-int test;
 typedef struct{ 
    char nama[99];
    int skor;
 } Pemain;
+//tipe data untuk pemain1 dan pemain2
 
 typedef struct {
    int skorTertinggi;
@@ -21,19 +20,25 @@ typedef struct {
    int papanTerisi;
    int pemainAktif;
    char tanda;
+   char *pemenang;
 } Game;
 Game game;
+//tipe data dalam in game
 
 typedef struct {
 	char isiPapan[7][7];
 } Papan;
 Papan papan;
+//Papan yang di isi oleh tanda
 
 int opsi;
+//variabel untuk memilih opsi yang ditampilkan
 
 int inProgram = 1;
+//dalam program
 
 void gotoxy(int x, int y);
+//untuk mengatur posisi printf di cmd
 
 void inputOpsiMenu(int *inpt);
 /* Modul ini untuk memasukan nilai ke dalam variabel opsi untuk yang di tampilkan di layar
@@ -42,10 +47,13 @@ F.S : Nilai variabel opsi sudah terdefinisi
 */
 
 int menuJumlahPemain();
+//menampilkan menju jumlah Pemain
 
 int menuModePermainan();
+//menampilkan menu mode permainan
 
 int mulaiPermainan();
+//permainan tik tak toe di mulai
 
 void tampilkanMenu();
 /* Modul ini digunakan untuk menampilkan Menu Utama
@@ -90,23 +98,33 @@ F.S : Menampilkan tampilan opsi cara bermain dan penjelasan cara bermain dengan 
 */
 
 void tampilkanPapan(Pemain pmn1, Pemain pmn2);
+//untuk menampilkan papan yang telah diisi oleh para pemain dengan tanda yang sudah ditentukan
+
+void tampilkanPemenang();
+//menampilkan pemenang
 
 void isiPapan(char tanda);
+//untuk mengisi papan dengan tanda
 
 void gantiGiliran();
+//ganti giliran antara pemain1 dan pemain2 juga berubah tanda
 
-void inputNamaPemain(Pemain *pmn1);
+//void inputNamaPemain(Pemain pemain1, Pemain pemain2);
 /*Modul ini berfungsi untuk menginputkan nama Pemain 1 dan Pemain 2
 I.S = Nama pemain belum di inputkan
 F.S = Nama pemain sudah di inputkan kedalam variabel pemain
 */
 
 void inputNamaPemain2(Pemain *pmn2);
+//menginput nama pemain2
 
-void inputNamaPemain1(Pemain *pmn2);
+void inputNamaPemain1(Pemain *pmn1);
+//menginput nama pemain1
 
-void tampilkanInputPemain(Pemain *pmn1, Pemain *pmn2);
+void tampilkanInputPemain(Pemain pmn1, Pemain pmn2);
+//menampilkan hasil tampilan input
 
+//CHECKWIN
 int checkWinHorizontal(int i, int j, int k);
 
 int checkWinVertikal(int i, int j, int k);
@@ -115,7 +133,16 @@ int checkWinDiagonal(int i, int j, int k);
 
 void checkWin(int klm, int brs, int syrt);
 
+// NILAI AWAL	
 void papanKosong();
+//mengosongkan papan
+
+void nilaiAwal();
+// Nilai awal dalam game
+
+
+
+
 
 int main() {
 	do{
@@ -279,17 +306,15 @@ int mulaiPermainan() {
 	Pemain pemain2;
 	
 	//inisial statenya tapi nanti dibuat modul
-	game.syaratMenang = game.modePermainan - trunc(game.modePermainan/3.5);
-	game.tanda = 'O';
-	game.pemainAktif = '1';
-	game.menang = 0;
-	papanKosong();
-	tampilkanInputPemain(&pemain1, &pemain2);
-    gotoxy(1,14);inputNamaPemain1(&pemain1);
-    tampilkanInputPemain(&pemain1, &pemain2);
+	nilaiAwal();
+//	inputNamaPemain(pemain1, pemain2);
+	tampilkanInputPemain(pemain1, pemain2);
+   	gotoxy(1,14);inputNamaPemain1(&pemain1);
+    tampilkanInputPemain(pemain1, pemain2);
     gotoxy(1,15);inputNamaPemain2(&pemain2);
-    tampilkanInputPemain(&pemain1, &pemain2);
-    sleep(1);
+    tampilkanInputPemain(pemain1, pemain2);
+    	sleep(1);
+	
     system("cls");
     
 	tampilkanPapan(pemain1, pemain2);
@@ -299,9 +324,23 @@ int mulaiPermainan() {
 		gantiGiliran();
 		tampilkanPapan(pemain1, pemain2);
 	} while(game.menang != 1 && game.papanTerisi < game.modePermainan * game.modePermainan);
+	
+	sleep(2);
+	system("cls");
+	
+	if(game.pemainAktif == 2) game.pemenang= pemain1.nama;
+	else game.pemenang = pemain2.nama;
+	
+	return menuPemenang();
 }
 
-
+void nilaiAwal() {
+	game.syaratMenang = game.modePermainan - trunc(game.modePermainan/3.5);
+	game.tanda = 'O';
+	game.pemainAktif = 1;
+	game.menang = 0;
+	papanKosong();
+} 
 
 void inputOpsiMenu(int *inpt) {
 	printf("\n\nPilih Opsi Menu : ");
@@ -362,15 +401,15 @@ void tampilkanPapan(Pemain pmn1, Pemain pmn2) {
 	gotoxy(42 + ukuran*3 + ukuran, ukuran*3 + 8);printf("%d", game.skorTertinggi);
 }
 
-void tampilkanInputPemain(Pemain *pmn1, Pemain *pmn2) {
+void tampilkanInputPemain(Pemain pmn1, Pemain pmn2) {
 	gotoxy(40,2);printf(" ========================================= ");
 	gotoxy(40,3);printf("||              Nama Pemain              ||");
 	gotoxy(40,4);printf(" =========================================");
 	gotoxy(40,5);printf("                                          ");
 	gotoxy(40,6);printf("                                           ");
-	gotoxy(40,7);printf("               Pemain 1 : %s               ",pmn1->nama);
+	gotoxy(40,7);printf("               Pemain 1 : %s               ",pmn1.nama);
 	gotoxy(40,8);printf("                                           ");
-	gotoxy(40,9);printf("               Pemain 2 : %s               ",pmn2->nama);
+	gotoxy(40,9);printf("               Pemain 2 : %s               ",pmn2.nama);
 	gotoxy(40,10);printf("                                           ");
 	gotoxy(40,11);printf(" ========================================= ");
 	gotoxy(40,12);printf("||              Nama Pemain              ||");
@@ -378,21 +417,26 @@ void tampilkanInputPemain(Pemain *pmn1, Pemain *pmn2) {
 }
 
 void isiPapan(char tanda) {
-	int baris, kolom;                                  
-	printf("\nMasukan Baris : ");
-	scanf("%d", &baris);
-	printf("\nMasukan kolom : ");
-	scanf("%d", &kolom);
+	int baris, kolom;
+	int isValid;                                  
+	
+	isValid = 0;
+	do {
+		printf("\nMasukan Baris : ");
+		scanf("%d", &baris);
+		printf("\nMasukan kolom : ");
+		scanf("%d", &kolom);
 		
-	if(papan.isiPapan[baris - 1][kolom-1] != 'X' && papan.isiPapan[baris-1][kolom-1] != 'O' && baris > 0 && baris <= game.modePermainan && kolom > 0 && kolom <= game.modePermainan) {
-		system("cls");
-		papan.isiPapan[baris - 1][kolom - 1] = tanda;
-		game.papanTerisi++;
-		checkWin(baris - 1, kolom - 1, game.syaratMenang);
-	} else {
-		system("cls");
-		gotoxy(1, 24 + game.modePermainan);printf("\nTidak valid\n");
-	}
+		if(isValid != 1 && papan.isiPapan[baris - 1][kolom-1] != 'X' && papan.isiPapan[baris-1][kolom-1] != 'O' && baris > 0 && baris <= game.modePermainan && kolom > 0 && kolom <= game.modePermainan) {
+			system("cls");
+			papan.isiPapan[baris - 1][kolom - 1] = tanda;
+			game.papanTerisi++;
+			checkWin(baris - 1, kolom - 1, game.syaratMenang);
+			isValid = 1;
+		} else {
+			gotoxy(1, 24 + game.modePermainan);printf("\nTidak valid\n");
+		}
+	} while(isValid != 1);
 }
 
 void checkWin(int brs, int klm, int syrt) {
@@ -440,12 +484,39 @@ void gantiGiliran() {
 
 void inputNamaPemain1(Pemain *pmn1){
 printf ("Nama pemain 1 = ");
-scanf("%s",pmn1->nama);
+scanf("%s", pmn1->nama);
 }
 
 void inputNamaPemain2(Pemain *pmn2){
 printf ("Nama pemain 2 = ");
-scanf("%s",pmn2->nama);
+scanf("%s", pmn2->nama);
+}
+
+int menuPemenang() {
+	tampilkanPemenang();
+	inputOpsiMenu(&opsi);
+	system("cls");
+	switch(opsi) {
+		case 1: 
+			return mulaiPermainan();
+			break;
+		case 2:
+			return main();
+			break;
+		default:
+			printf("\nTidak Valid");
+			return menuPemenang();
+	}
+} 
+
+void tampilkanPemenang() {
+	gotoxy(35, 2); printf(" ============================================================");
+	gotoxy(57, 4); printf("%s menang", game.pemenang);
+	gotoxy(35, 6); printf(" ============================================================");
+	gotoxy(54, 10); printf("Apakah ingin bermain lagi ?");
+	gotoxy(62, 12); printf("1. Ya");
+	gotoxy(62, 14); printf("2. Tidak");
+	gotoxy(35, 18); printf(" ============================================================");
 }
 
 
