@@ -39,7 +39,7 @@ Papan papan;
 int opsi;
 //variabel untuk memilih opsi yang ditampilkan
 
-int inProgram = 1;
+int inProgram;
 //dalam program
 
 void gotoxy(int x, int y);
@@ -156,15 +156,17 @@ void tukarGiliranPertama();
 
 
 int main() {
-	game.namaTerisi = 0;
-	game.ronde = 1;
 	do{
+		game.namaTerisi = 0;
+		game.ronde = 1;
+		inProgram = 1;
+	
 		tampilkanMenu();
 		inputOpsiMenu(&opsi);
 		system("cls");
 		switch(opsi) {
 			case 1: 
-				menuJumlahPemain();
+				return menuJumlahPemain();
 				break;
 			case 2:
 				
@@ -177,7 +179,7 @@ int main() {
 			default:
 				gotoxy(1, 26);printf("\nTidak Valid");
 		}
-	} while(inProgram != 0);
+	} while(inProgram == 1);
 		return 0;
 }
  
@@ -441,7 +443,7 @@ void *timer(void *arg) {
     	printf("Waktu Anda Tersisa[%d]: ", game.batasWaktu);		
 		}else{
 		gotoxy(0, ukuran*3 + 11);//12   
-    	printf("Waktu Anda Tersisa[ %d]: ", game.batasWaktu);
+    	printf("Waktu Anda Tersisa[%d]: ", game.batasWaktu);
     	}
 	sleep(1);
     game.batasWaktu--;
@@ -577,8 +579,8 @@ int menuPemenang() {
 	}
 }
 void resetNamaPemain(){
-	memset(pemain1.nama,0,strlen(pemain1.nama));
-	memset(pemain2.nama,0,strlen(pemain2.nama));
+	memset(&pemain1.nama,0,strlen(&pemain1.nama));
+	memset(&pemain2.nama,0,strlen(&pemain2.nama));
 }
 
 void tampilkanPemenang() {
