@@ -317,9 +317,6 @@ int menuModePermainan() {
 }
 
 int mulaiPermainan() {
-	Pemain pemain1;
-	Pemain pemain2;
-	
 	//inisial statenya tapi nanti dibuat modul
 	nilaiAwal();
 //	inputNamaPemain(pemain1, pemain2);
