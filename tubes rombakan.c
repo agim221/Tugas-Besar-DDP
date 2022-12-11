@@ -6,7 +6,7 @@
 #include<pthread.h>
 
 typedef struct{ 
-   char nama[99];
+   char *nama;
    int skor;
 } Pemain;
 Pemain pemain1;
@@ -147,7 +147,10 @@ void resetNamaPemain();
 pthread_t timer_bariskolom;
 //Deklarasi tambahan
 int stop_thread=0;
-int stop_prosedur=0;
+int waktuHabis=0;
+
+//tukar giliran
+void tukarGiliranPertama();
 
 
 
@@ -382,7 +385,8 @@ void tampilkanPapan(Pemain pmn1, Pemain pmn2) {
 	gotoxy(42 + ukuran*3, 1);
 	printf("Round %d",game.ronde);
 	gotoxy(42 + ukuran*3, 3);
-	printf("timer");
+	if(game.pemainAktif == 1) printf("Giliran %s", &pmn1.nama);
+	else printf("Giliran %s", &pmn2.nama);
 	
 	k = 0;
 	for(i = 0; i <= ukuran * 3 ; i++) {
@@ -403,8 +407,8 @@ void tampilkanPapan(Pemain pmn1, Pemain pmn2) {
 		
 	}
 		
-	gotoxy(48 - ukuran, ukuran*3 + 6);printf("%s", pmn1.nama);
-	gotoxy(42 + ukuran*6 + ukuran/3, ukuran*3 + 6); printf("%s", pmn2.nama);
+	gotoxy(48 - ukuran, ukuran*3 + 6);printf("%s", &pmn1.nama);
+	gotoxy(42 + ukuran*6 + ukuran/3, ukuran*3 + 6); printf("%s", &pmn2.nama);
 	gotoxy(47-ukuran, ukuran*3 + 7);printf("%d", pmn1.skor);
 	gotoxy(44+ukuran*6 + ukuran/3, ukuran*3 + 7);printf("%d", pmn2.skor);
 	gotoxy(42 + ukuran*3 + ukuran, ukuran*3 + 8);printf("%d", game.skorTertinggi);
@@ -416,9 +420,9 @@ void tampilkanInputPemain(Pemain pmn1, Pemain pmn2) {
 	gotoxy(40,4);printf(" =========================================");
 	gotoxy(40,5);printf("                                          ");
 	gotoxy(40,6);printf("                                           ");
-	gotoxy(40,7);printf("               Pemain 1 : %s               ",pmn1.nama);
+	gotoxy(40,7);printf("               Pemain 1 : %s               ", &pmn1.nama);
 	gotoxy(40,8);printf("                                           ");
-	gotoxy(40,9);printf("               Pemain 2 : %s               ",pmn2.nama);
+	gotoxy(40,9);printf("               Pemain 2 : %s               ", &pmn2.nama);
 	gotoxy(40,10);printf("                                           ");
 	gotoxy(40,11);printf(" ========================================= ");
 	gotoxy(40,12);printf("||              Nama Pemain              ||");
@@ -427,27 +431,27 @@ void tampilkanInputPemain(Pemain pmn1, Pemain pmn2) {
 
 void *timer(void *arg) {
   // Inisialisasi variabel
-  int time_left = 10,i=0,ukuran = game.modePermainan;
+  int i=0,ukuran = game.modePermainan;
   
-  while (time_left >= 0 && stop_thread == 0) {
+  while (arg >= 0 && stop_thread == 0) {
   if (i==0){
 		gotoxy(0, ukuran*3 + 11); //12  
-    	printf("Waktu Anda Tersisa[%d]: ", time_left);		
+    	printf("Waktu Anda Tersisa[%d]: ", arg);		
 		}else{
 		gotoxy(0, ukuran*3 + 11);//12   
-    	printf("Waktu Anda Tersisa[ %d]: ", time_left);
+    	printf("Waktu Anda Tersisa[ %d]: ", arg);
     	}
 	sleep(1);
-    time_left--;
+    arg--;
     i++;    	
 	}
 	if (stop_thread == 1){
 		pthread_cancel(timer_bariskolom);
 		return NULL;
 		}else{
-		stop_prosedur = 1;
+		waktuHabis = 1;
 		gotoxy(0, ukuran*3 + 9);		
-		printf("\nWaktu Anda sudah Habis!\nketik'0 0'untuk lanjut!");
+		printf("\nWaktu Anda sudah Habis!\nketik'0 0'untuk ganti giliran berikutnya!");
 		return NULL;
 		}
   }
@@ -457,16 +461,22 @@ void isiPapan(char tanda) {
 	int isValid,ukuran = game.modePermainan;                                  
 	
 	isValid = 0;
+	int time_left = 10;
+	
+	
 	do {
 		stop_thread = 0;
 		gotoxy(0, ukuran*3 + 9);                                  	
 		printf("\nMasukan Baris & Kolom : ");	
-		pthread_create(&timer_bariskolom, NULL, &timer, NULL);
+		pthread_create(&timer_bariskolom, NULL, &timer, (void *)time_left);
 		scanf("%d %d", &baris, &kolom);	
 		stop_thread = 1;		
 		pthread_join(timer_bariskolom,NULL);
-		if (stop_prosedur == 0)
-		{
+		
+		if (waktuHabis == 1 ) {
+			baris = (rand() % (game.modePermainan - 1 + 1)) + 1;
+			kolom = (rand() % (game.modePermainan - 1 + 1)) + 1;
+		}
 			if(isValid != 1 && papan.isiPapan[baris - 1][kolom-1] != 'X' && papan.isiPapan[baris-1][kolom-1] != 'O' && baris > 0 && baris <= game.modePermainan && kolom > 0 && kolom <= game.modePermainan) {
 				system("cls");
 				papan.isiPapan[baris - 1][kolom - 1] = tanda;
@@ -476,7 +486,6 @@ void isiPapan(char tanda) {
 				}else {
 				gotoxy(1, 24 + game.modePermainan);printf("\nTidak valid\n");
 				}
-		} 
 	}while(isValid != 1);
 }
 
@@ -490,6 +499,19 @@ void checkWin(int brs, int klm, int syrt) {
 		i++;
 //		scanf("%d", &test);
 	} while (game.menang != 1 && syrt % 3 >= i);
+	if(game.menang == 1) {
+		if(game.pemainAktif == 1) pemain1.skor++;
+		else pemain2.skor++;
+		checkHighScore();
+	}
+}
+
+void checkHighScore() {
+	if(game.pemainAktif == 1) {
+		if(game.skorTertinggi < pemain1.skor) game.skorTertinggi = pemain1.skor;
+	} else {
+		if(game.skorTertinggi < pemain2.skor) game.skorTertinggi = pemain2.skor;
+	}
 }
 
 
@@ -525,12 +547,12 @@ void gantiGiliran() {
 
 void inputNamaPemain1(Pemain *pmn1){
 printf ("Nama pemain 1 = ");
-scanf("%s", pmn1->nama);
+scanf("%s", &pmn1->nama);
 }
 
 void inputNamaPemain2(Pemain *pmn2){
 printf ("Nama pemain 2 = ");
-scanf("%s", pmn2->nama);
+scanf("%s", &pmn2->nama);
 }
 
 int menuPemenang() {
@@ -539,6 +561,7 @@ int menuPemenang() {
 	system("cls");
 	switch(opsi) {
 		case 1: 
+			tukarGiliranPertama();
 			game.ronde++;
 			return mulaiPermainan();
 			break;
@@ -558,10 +581,22 @@ void resetNamaPemain(){
 
 void tampilkanPemenang() {
 	gotoxy(35, 2); printf(" ============================================================");
-	gotoxy(57, 4); printf("%s menang", game.pemenang);
+	gotoxy(57, 4); printf("%s menang", &game.pemenang);
 	gotoxy(35, 6); printf(" ============================================================");
 	gotoxy(54, 10); printf("Apakah ingin bermain lagi ?");
 	gotoxy(62, 12); printf("1. Ya");
 	gotoxy(62, 14); printf("2. Tidak");
 	gotoxy(35, 18); printf(" ============================================================");
+}
+
+void tukarGiliranPertama() {
+	int temp;
+	
+	temp = pemain1.nama;
+	pemain1.nama = pemain2.nama;
+	pemain2.nama = temp;
+	
+	pemain1.skor = pemain1.skor + pemain2.skor;
+	pemain2.skor = pemain1.skor - pemain2.skor;
+	pemain1.skor = pemain1.skor - pemain2.skor;
 }
