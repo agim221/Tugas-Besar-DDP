@@ -20,6 +20,7 @@ typedef struct {
    int menang;
    int papanTerisi;
    int pemainAktif;
+   int namaTerisi;
    char tanda;
    char *pemenang;
 } Game;
@@ -152,6 +153,8 @@ int stop_prosedur=0;
 
 
 int main() {
+	game.namaTerisi = 0;
+	game.ronde = 1;
 	do{
 		tampilkanMenu();
 		inputOpsiMenu(&opsi);
@@ -315,13 +318,15 @@ int mulaiPermainan() {
 	//inisial statenya tapi nanti dibuat modul
 	nilaiAwal();
 //	inputNamaPemain(pemain1, pemain2);
+	if(game.namaTerisi == 0){
 	tampilkanInputPemain(pemain1, pemain2);
    	gotoxy(1,14);inputNamaPemain1(&pemain1);
     tampilkanInputPemain(pemain1, pemain2);
     gotoxy(1,15);inputNamaPemain2(&pemain2);
     tampilkanInputPemain(pemain1, pemain2);
-    	sleep(1);
-	
+    game.namaTerisi = 1;
+    sleep(1);
+	}
     system("cls");
     
 	tampilkanPapan(pemain1, pemain2);
@@ -378,7 +383,7 @@ void tampilkanPapan(Pemain pmn1, Pemain pmn2) {
 	
 	
 	gotoxy(42 + ukuran*3, 1);
-	printf("Round 1");
+	printf("Round %d",game.ronde);
 	gotoxy(42 + ukuran*3, 3);
 	printf("timer");
 	
@@ -537,6 +542,7 @@ int menuPemenang() {
 	system("cls");
 	switch(opsi) {
 		case 1: 
+			game.ronde++;
 			return mulaiPermainan();
 			break;
 		case 2:
