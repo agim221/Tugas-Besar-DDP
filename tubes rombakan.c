@@ -3,6 +3,7 @@
 #include<windows.h>
 #include<stdlib.h>
 #include<math.h>
+#include<pthread.h>
 
 typedef struct{ 
    char nama[99];
@@ -140,7 +141,13 @@ void papanKosong();
 void nilaiAwal();
 // Nilai awal dalam game
 
-
+//Yang ditambahin
+void *timer(void *arg);
+//Deklarasi thread
+pthread_t timer_bariskolom;
+//Deklarasi tambahan
+int stop_thread=0;
+int stop_prosedur=0;
 
 
 
@@ -416,27 +423,59 @@ void tampilkanInputPemain(Pemain pmn1, Pemain pmn2) {
 	gotoxy(40,13);printf(" ========================================= ");
 }
 
+void *timer(void *arg) {
+  // Inisialisasi variabel
+  int time_left = 10,i=0,ukuran = game.modePermainan;
+  
+  while (time_left >= 0 && stop_thread == 0) {
+  if (i==0){
+		gotoxy(0, ukuran*3 + 11); //12  
+    	printf("Waktu Anda Tersisa[%d]: ", time_left);		
+		}else{
+		gotoxy(0, ukuran*3 + 11);//12   
+    	printf("Waktu Anda Tersisa[ %d]: ", time_left);
+    	}
+	sleep(1);
+    time_left--;
+    i++;    	
+	}
+	if (stop_thread == 1){
+		pthread_cancel(timer_bariskolom);
+		return NULL;
+		}else{
+		stop_prosedur = 1;
+		gotoxy(0, ukuran*3 + 9);		
+		printf("\nWaktu Anda sudah Habis!\nketik'0 0'untuk lanjut!");
+		return NULL;
+		}
+  }
+
 void isiPapan(char tanda) {
 	int baris, kolom;
-	int isValid;                                  
+	int isValid,ukuran = game.modePermainan;                                  
 	
 	isValid = 0;
 	do {
-		printf("\nMasukan Baris : ");
-		scanf("%d", &baris);
-		printf("\nMasukan kolom : ");
-		scanf("%d", &kolom);
-		
-		if(isValid != 1 && papan.isiPapan[baris - 1][kolom-1] != 'X' && papan.isiPapan[baris-1][kolom-1] != 'O' && baris > 0 && baris <= game.modePermainan && kolom > 0 && kolom <= game.modePermainan) {
-			system("cls");
-			papan.isiPapan[baris - 1][kolom - 1] = tanda;
-			game.papanTerisi++;
-			checkWin(baris - 1, kolom - 1, game.syaratMenang);
-			isValid = 1;
-		} else {
-			gotoxy(1, 24 + game.modePermainan);printf("\nTidak valid\n");
-		}
-	} while(isValid != 1);
+		stop_thread = 0;
+		gotoxy(0, ukuran*3 + 9);                                  	
+		printf("\nMasukan Baris & Kolom : ");	
+		pthread_create(&timer_bariskolom, NULL, &timer, NULL);
+		scanf("%d %d", &baris, &kolom);	
+		stop_thread = 1;		
+		pthread_join(timer_bariskolom,NULL);
+		if (stop_prosedur == 0)
+		{
+			if(isValid != 1 && papan.isiPapan[baris - 1][kolom-1] != 'X' && papan.isiPapan[baris-1][kolom-1] != 'O' && baris > 0 && baris <= game.modePermainan && kolom > 0 && kolom <= game.modePermainan) {
+				system("cls");
+				papan.isiPapan[baris - 1][kolom - 1] = tanda;
+				game.papanTerisi++;
+				checkWin(baris - 1, kolom - 1, game.syaratMenang);
+				isValid = 1;
+				}else {
+				gotoxy(1, 24 + game.modePermainan);printf("\nTidak valid\n");
+				}
+		} 
+	}while(isValid != 1);
 }
 
 void checkWin(int brs, int klm, int syrt) {
@@ -518,5 +557,3 @@ void tampilkanPemenang() {
 	gotoxy(62, 14); printf("2. Tidak");
 	gotoxy(35, 18); printf(" ============================================================");
 }
-
-
