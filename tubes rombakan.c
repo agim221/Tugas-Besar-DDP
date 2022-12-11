@@ -23,6 +23,7 @@ typedef struct {
    int papanTerisi;
    int pemainAktif;
    int namaTerisi;
+   int batasWaktu;
    char tanda;
    char *pemenang;
 } Game;
@@ -331,6 +332,7 @@ int mulaiPermainan() {
 	tampilkanPapan(pemain1, pemain2);
 	
 	do {
+	
 		isiPapan(game.tanda);
 		gantiGiliran();
 		tampilkanPapan(pemain1, pemain2);
@@ -433,16 +435,16 @@ void *timer(void *arg) {
   // Inisialisasi variabel
   int i=0,ukuran = game.modePermainan;
   
-  while (arg >= 0 && stop_thread == 0) {
+  while (game.batasWaktu >= 0 && stop_thread == 0) {
   if (i==0){
 		gotoxy(0, ukuran*3 + 11); //12  
-    	printf("Waktu Anda Tersisa[%d]: ", arg);		
+    	printf("Waktu Anda Tersisa[%d]: ", game.batasWaktu);		
 		}else{
 		gotoxy(0, ukuran*3 + 11);//12   
-    	printf("Waktu Anda Tersisa[ %d]: ", arg);
+    	printf("Waktu Anda Tersisa[ %d]: ", game.batasWaktu);
     	}
 	sleep(1);
-    arg--;
+    game.batasWaktu--;
     i++;    	
 	}
 	if (stop_thread == 1){
@@ -461,14 +463,14 @@ void isiPapan(char tanda) {
 	int isValid,ukuran = game.modePermainan;                                  
 	
 	isValid = 0;
-	int time_left = 10;
+	game.batasWaktu = 10;
 	
 	
 	do {
 		stop_thread = 0;
 		gotoxy(0, ukuran*3 + 9);                                  	
 		printf("\nMasukan Baris & Kolom : ");	
-		pthread_create(&timer_bariskolom, NULL, &timer, (void *)time_left);
+		pthread_create(&timer_bariskolom, NULL, &timer, NULL);
 		scanf("%d %d", &baris, &kolom);	
 		stop_thread = 1;		
 		pthread_join(timer_bariskolom,NULL);
