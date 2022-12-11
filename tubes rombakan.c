@@ -9,6 +9,8 @@ typedef struct{
    char nama[99];
    int skor;
 } Pemain;
+Pemain pemain1;
+Pemain pemain2;
 //tipe data untuk pemain1 dan pemain2
 
 typedef struct {
@@ -144,6 +146,9 @@ void nilaiAwal();
 
 //Yang ditambahin
 void *timer(void *arg);
+
+void resetNamaPemain();
+	
 //Deklarasi thread
 pthread_t timer_bariskolom;
 //Deklarasi tambahan
@@ -351,6 +356,7 @@ void nilaiAwal() {
 	game.tanda = 'O';
 	game.pemainAktif = 1;
 	game.menang = 0;
+	game.papanTerisi = 0;
 	papanKosong();
 } 
 
@@ -546,13 +552,18 @@ int menuPemenang() {
 			return mulaiPermainan();
 			break;
 		case 2:
+			resetNamaPemain();
 			return main();
 			break;
 		default:
 			printf("\nTidak Valid");
 			return menuPemenang();
 	}
-} 
+}
+void resetNamaPemain(){
+	memset(pemain1.nama,0,strlen(pemain1.nama));
+	memset(pemain2.nama,0,strlen(pemain2.nama));
+}
 
 void tampilkanPemenang() {
 	gotoxy(35, 2); printf(" ============================================================");
