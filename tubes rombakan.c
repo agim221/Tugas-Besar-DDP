@@ -113,12 +113,6 @@ void isiPapan(char tanda);
 void gantiGiliran();
 //ganti giliran antara pemain1 dan pemain2 juga berubah tanda
 
-//void inputNamaPemain(Pemain pemain1, Pemain pemain2);
-/*Modul ini berfungsi untuk menginputkan nama Pemain 1 dan Pemain 2
-I.S = Nama pemain belum di inputkan
-F.S = Nama pemain sudah di inputkan kedalam variabel pemain
-*/
-
 void inputNamaPemain2(Pemain *pmn2);
 //menginput nama pemain2
 
