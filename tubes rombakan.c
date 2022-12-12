@@ -36,6 +36,8 @@ typedef struct {
 Papan papan;
 //Papan yang di isi oleh tanda
 
+void checkHighScore();
+
 int opsi;
 //variabel untuk memilih opsi yang ditampilkan
 
@@ -51,13 +53,15 @@ I.S : Nilai variabel opsi belum terdefinisi
 F.S : Nilai variabel opsi sudah terdefinisi
 */
 
-int menuJumlahPemain();
+void menuCaraBermain();
+
+void menuJumlahPemain();
 //menampilkan menju jumlah Pemain
 
-int menuModePermainan();
+void menuModePermainan();
 //menampilkan menu mode permainan
 
-int mulaiPermainan();
+void mulaiPermainan();
 //permainan tik tak toe di mulai
 
 void tampilkanMenu();
@@ -91,7 +95,7 @@ F.S : menampilkan tampilan menu jumlah pemain dengan format :
          3. 7 x 7
          0. Kembali
 */
-//void tampilkanOpsiCaraBermain();
+void tampilkanOpsiCaraBermain();
 /*Modul ini digunakan untuk menampilkan tampilan cara bermain ke layar
 I.S : Belum menampilkan tampilan opsi cara bermain
 F.S : Menampilkan tampilan opsi cara bermain dan penjelasan cara bermain dengan format :
@@ -101,6 +105,8 @@ F.S : Menampilkan tampilan opsi cara bermain dan penjelasan cara bermain dengan 
        3?..
        0. Kembali
 */
+
+void menuPemenang();
 
 void tampilkanPapan(Pemain pmn1, Pemain pmn2);
 //untuk menampilkan papan yang telah diisi oleh para pemain dengan tanda yang sudah ditentukan
@@ -166,13 +172,14 @@ int main() {
 		system("cls");
 		switch(opsi) {
 			case 1: 
-				return menuJumlahPemain();
+				menuJumlahPemain();
 				break;
 			case 2:
 				
 				break;
 			case 3:
-				break;
+				menuCaraBermain();
+				break; 
 			case 0:
 				inProgram = 0;
 				break;
@@ -201,12 +208,54 @@ void tampilkanMenu() {
 	gotoxy(40,16);printf("|         / /     / /__/ /  / /___        |");
 	gotoxy(40,17);printf("|        /_/     /____ _/  /_____/        |");
 	gotoxy(40,18);printf("===========================================");
-	gotoxy(40,19);printf("                   Menu                    ");
+	gotoxy(40,19);printf("||                   Menu                ||");
 	gotoxy(40,20);printf("===========================================");
 	gotoxy(40,21);printf("1. Permainan Baru");
 	gotoxy(40,22);printf("2. Lanjutkan Permainan");
 	gotoxy(40,23);printf("3. Cara Bermain");
 	gotoxy(40,24);printf("0. Keluar");
+}
+
+void tampilkanOpsiCaraBermain() {
+	gotoxy(40,2);printf(" ===================================================================");
+	gotoxy(40,3);printf("||                         Panduan Bermain                         ||");
+	gotoxy(40,4);printf(" ===================================================================");
+	gotoxy(40,5);printf("||                                                                 ||");
+	gotoxy(40,6);printf("|| 1.Game dimulai dengan papan kosong berukuran 3x3, 5x5, atau 7x7 ||");
+	gotoxy(40,7);printf("||   (tergantung pada variasi yang dipilih).                       ||");
+	gotoxy(40,8);printf("|| 2.Pemain 1 dan pemain 2 bergantian menempatkan bidak mereka     ||");
+	gotoxy(40,9);printf("||   (X atau O) pada papan, satu bidak per giliran dan akan diwaktu||");
+	gotoxy(40,10);printf("||  selama 10 detik, jika melebihi maka akan diisi bidak secara    ||");
+	gotoxy(40,11);printf("||  acak.                                                          ||");
+	gotoxy(40,12);printf("|| 3.Bidak ditempatkan pada kotak kosong di papan.                 ||");
+	gotoxy(40,13);printf("|| 4.Pemain yang berhasil menempatkan bidaknya secara berurutan    ||");
+	gotoxy(40,14);printf("||   pada baris, kolom, atau diagonal papan menang (Untuk 3x3      ||");
+	gotoxy(40,15);printf("||   3 bidak berurutan, untuk 5x5 4 bidak berurutan dan untuk 7x7  ||");
+	gotoxy(40,16);printf("||   5 bidak berurutan).                                           ||");
+	gotoxy(40,17);printf("|| 5.Jika tidak ada kotak kosong tersisa dan tidak ada pemain yang ||");
+	gotoxy(40,18);printf("||   menang, game berakhir dengan hasil seri.                      ||");
+	gotoxy(40,19);printf("|| 6.Pemain bisa melanjutkan permainan atau tidak.                 ||");
+	gotoxy(40,20);printf("|| 7.Untuk setiap pergantian ronde, giliran akan ditukar antar     ||");
+	gotoxy(40,21);printf("||   pemain.                                                       ||");
+	gotoxy(40,22);printf("|| 8.Jika skor menang pemain lebih tinggi dari skor tertinggi yang ||");
+	gotoxy(40,23);printf("||   sebelumnya, maka skor tertinggi akan digantikan.              ||");
+	gotoxy(40,24);printf("||                                                                 ||");
+	gotoxy(40,25);printf(" =================================================================== ");
+	gotoxy(40,26);printf("||                         Panduan Bermain                         ||");
+	gotoxy(40,27);printf(" =================================================================== ");
+}
+
+void menuCaraBermain() {
+	tampilkanOpsiCaraBermain();
+	inputOpsiMenu(&opsi);
+	switch(opsi) {
+		case 0: 
+			main();
+			break;
+		default: 
+			gotoxy(1, 29);printf("\nTidak valid");
+			menuCaraBermain();
+	};
 }
 
 void tampilkanOpsiJumlahPemain() {
@@ -238,25 +287,25 @@ void tampilkanOpsiJumlahPemain() {
 }
 
 
-int menuJumlahPemain() {
+void menuJumlahPemain() {
 	tampilkanOpsiJumlahPemain();
 	inputOpsiMenu(&opsi);
 	system("cls");
 	switch(opsi) {
 		case 1:
 			game.jumlahPemain = 1;
-			return menuModePermainan();
+			menuModePermainan();
 			break;
 		case 2:
 			game.jumlahPemain = 2;
-			return menuModePermainan();
+			menuModePermainan();
 			break;
 		case 0:
-			return main();
+			main();
 			break;
 		default: 
 			gotoxy(1, 28);printf("\nTidak Valid");
-			return menuJumlahPemain();
+			menuJumlahPemain();
 	}
 }
 
@@ -290,33 +339,33 @@ void tampilkanOpsiModePermainan() {
 
 
 
-int menuModePermainan() {
+void menuModePermainan() {
 	tampilkanOpsiModePermainan();
 	inputOpsiMenu(&opsi);
 	system("cls");
 	switch(opsi) {
 		case 1: 
 			game.modePermainan = 3;
-			return mulaiPermainan();
+			mulaiPermainan();
 			break;
 		case 2:
 			game.modePermainan = 5;
-			return mulaiPermainan();
+			 mulaiPermainan();
 			break;
 		case 3:
 			game.modePermainan = 7;
-			return mulaiPermainan();
+			mulaiPermainan();
 			break;
 		case 0: 
 			game.jumlahPemain = 0;
-			return menuJumlahPemain();
+			menuJumlahPemain();
 		default:
 			gotoxy(1, 28);printf("\nTidak Valid");
 			return menuModePermainan(); 
 	} 
 }
 
-int mulaiPermainan() {
+void mulaiPermainan() {
 	//inisial statenya tapi nanti dibuat modul
 	nilaiAwal();
 //	inputNamaPemain(pemain1, pemain2);
@@ -346,7 +395,7 @@ int mulaiPermainan() {
 	if(game.pemainAktif == 2) game.pemenang= pemain1.nama;
 	else game.pemenang = pemain2.nama;
 	
-	return menuPemenang();
+	menuPemenang();
 }
 
 void nilaiAwal() {
@@ -559,7 +608,7 @@ printf ("Nama pemain 2 = ");
 scanf("%s", &pmn2->nama);
 }
 
-int menuPemenang() {
+void menuPemenang() {
 	tampilkanPemenang();
 	inputOpsiMenu(&opsi);
 	system("cls");
@@ -567,20 +616,20 @@ int menuPemenang() {
 		case 1: 
 			tukarGiliranPertama();
 			game.ronde++;
-			return mulaiPermainan();
+			mulaiPermainan();
 			break;
 		case 2:
 			resetNamaPemain();
-			return main();
+			main();
 			break;
 		default:
 			printf("\nTidak Valid");
-			return menuPemenang();
+			menuPemenang();
 	}
 }
 void resetNamaPemain(){
-	memset(&pemain1.nama,0,strlen(&pemain1.nama));
-	memset(&pemain2.nama,0,strlen(&pemain2.nama));
+	pemain1.nama = NULL;
+	pemain2.nama = NULL;
 }
 
 void tampilkanPemenang() {
