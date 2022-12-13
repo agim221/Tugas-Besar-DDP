@@ -110,7 +110,7 @@ F.S: tampilan menu opsi mode permainan muncul dan disuruh memilih opsi yang ada
 */
 
 void menuJumlahPemain();
-?* Prosedur yang akan menampilkan menu opsi jumlah pemain dan disuruh memasukan input
+/* Prosedur yang akan menampilkan menu opsi jumlah pemain dan disuruh memasukan input
 I.S: tampilan menu opsi jumlah pemain belum muncul dan belum disuruh memasukan input
 F.S: menampilkan menu opsi jumlah pemain dan disuruh memasukan input untuk memilih opsi tersebut.
 */
