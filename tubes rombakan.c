@@ -98,58 +98,122 @@ F.S : Menampilkan tampilan opsi cara bermain dan penjelasan cara bermain dengan 
 */
 
 void tampilkanPemenang();
-/*menampilkan pemenang
+/* Prosedur yang akan menampilkan pemenang dari game tersebut
+I.S: belum menampilkan
+F.S: menampilkan tampilan pemenang
 */
 
 void menuModePermainan();
-//menampilkan menu mode permainan
+/* Prosedur yang akan menampilkan tampilan menu mode permainan dan disuruh untuk memilih opsi tersebut
+I.S: tampilan menu opsi mode permainan belum muncul dan kita belum disuruh memilih opsi tersebut.
+F.S: tampilan menu opsi mode permainan muncul dan disuruh memilih opsi yang ada
+*/
 
 void menuJumlahPemain();
-//menampilkan menju jumlah Pemain
+?* Prosedur yang akan menampilkan menu opsi jumlah pemain dan disuruh memasukan input
+I.S: tampilan menu opsi jumlah pemain belum muncul dan belum disuruh memasukan input
+F.S: menampilkan menu opsi jumlah pemain dan disuruh memasukan input untuk memilih opsi tersebut.
+*/
 
 void mulaiPermainan();
-//permainan tik tak toe di mulai
+/* Prosedur ini adalah prosedur untuk memulai permainan
+I.S: Permainan belum dimulai, papan belum ditampilkan, dan kita belum disuruh memasukan baris dan kolom untuk mengisi papan
+F.S: Permainan sudah dimulai, papan sudah ditampilkan, dan kita disuruh memasukan baris dan kolom untuk mengisi papan
+*/
 
 void menuPemenang();
+/* Menu pemenang ini akan menampilkan menu bagi pemain yang menang dan kita akan disuruh memasukan pilihan opsi apakah akan menalnjutkan permainan atau tidak, jika iya maka akan bermain lagi, jika tidak maka akan kembali ke main modul.
+I.S: belum menampilkan pemenang
+F.S: menampilkan pemenang
+*/
 
 void menuCaraBermain();
+/* Modul ini digunakan untuk menampilkan Menu Cara Bermain
+I.S : Belum menampilkan tampilan menu cara bermain dan belum disuruh memilih opsi
+F.S : Menampilkan tampilan menu cara bermain dan disuruh memilih opsi
+*/
 
 void nilaiAwal();
-// Nilai awal dalam game
+/* Prosedur ini adalah prosedur inisialisasi ketika game dimulai
+I.S: variabel game.syaratMenang, game.tanda, game.pemainAktif, game.menang, game.papanTerisi kosong
+F.S :  variabel game.syaratMenang, game.tanda, game.pemainAktif, game.menang, game.papanTerisi berisi nilai inisialisasi
+*/
 
 void isiPapan(char tanda);
-//untuk mengisi papan dengan tanda
+/* Prosedur untuk memilih opsi-opsi ditampilan menu yang ada
+I.S: nilai dari variabel opsi tak terdefinisi
+F.S: nilai dari variabel opsi terdefinisi
+*/
 
 void *timer(void *arg);
+/* Prosedur untuk menghitung mundur angka sebagai timer
+IS : Tidak terdapat waktu pernghitung mundur 
+FS : Terdapat waktu penghitung mundur
+Prosedur ini berfungsi untuk membuat waktu penghitung mundur
+*/
 
 void inputNamaPemain1();
-//menginput nama pemain1
+/* Prosedur yang berguna untuk memasukan nama ke dalam variabel pmn1.nama
+I.S: Variabel pmn1.nama kosong
+F.S variabel pmn1.nama terisi sesuai nama yang dimasukan
+*/
 
 void inputNamaPemain2();
-//menginput nama pemain2
+/* Prosedur yang berguna untuk memasukan nama ke dalam variabel pmn2.nama
+I.S: Variabel pmn2..nama kosong
+F.S: Variabel pmn2.nama terisi sesuai nama yang dimasukan
+*/
 
 void gantiGiliran();
-//ganti giliran antara pemain1 dan pemain2 juga berubah tanda
+/* Prosedur untuk mengganti giliran pemain setelah mengisi papan
+IS : Pemain pertama mendapat giliran pertama dengan simbol ‘O’ dan pemain kedua mendapat giliran kedua dengan simbol ‘X’. 
+FS : Pemain pertama mendapat giliran menjadi giliran kedua dengan simbol pemain kedua dan berlaku untuk pemain kedua juga.
+prosedur yang akan mengubah variabel tanda dari ‘O’ menjadi ‘X’ atau pun sebaliknya.
+*/
 
 void checkWin(int klm, int brs, int syrt);
-//CHECKWIN
-int checkWinHorizontal(int i, int j, int k);
-
-int checkWinVertikal(int i, int j, int k);
-
-int checkWinDiagonalKanan(int i, int j, int k);
-
-int checkWinDiagonalKiri(int i, int j, int k);
+/* Prosedur yang akan mengecek tanda sebanyak 3/4/5 kotak sesuai mode permainan
+I.S: game.menang = 0
+F.S: game.menang = 1
+*/
+	int checkWinHorizontal(int i, int j, int k);
+/* Fungsi yang akan mengecek tanda secara horizontal dari kiri ke kanan sebanyak 3/4/5 kotak sesuai dengan persyaratan menang. 
+Jika tandanya sama semua maka akan mengembalikan nilai 1 jika tidak maka akan mengembalikan nilai 0.
+*/
+	int checkWinVertikal(int i, int j, int k);
+/* Fungsi yang akan mengecek tanda secara vertikal dari atas ke bawah sebanyak 3/4/5 kotak sesuai dengan persyaratan menang. 
+Jika tandanya sama semua maka akan mengembalikan nilai 1 jika tidak maka akan mengembalikan nilai 0.
+*/
+	int checkWinDiagonalKanan(int i, int j, int k);
+/* Fungsi yang akan mengecek tanda secara diagonal dari kiri bawah ke kanan atas sebanyak 3/4/5 kotak sesuai dengan persyaratan menang. 
+Jika tandanya sama semua maka akan mengembalikan nilai 1 jika tidak maka akan mengembalikan nilai 0.
+*/
+	int checkWinDiagonalKiri(int i, int j, int k);
+/* Fungsi yang akan mengecek tanda secara diagonal dari kiri atas ke kanan bawahsebanyak 3/4/5 kotak sesuai dengan persyaratan menang. 
+Jika tandanya sama semua maka akan mengembalikan nilai 1 jika tidak maka akan mengembalikan nilai 0.
+*/
 
 void checkHighScore();
+/* Fungsi yang akan mengecek high score yang ada jika nilai score sekarang lebih besar daripada high score sebelumnya maka 
+high score tersebut akan diganti oleh score sekarang.*/
 
 void papanKosong();
-//mengosongkan papan
+/* Prosedur untuk mengosongkan variabel papan.isiPapan
+I.S : papan.isiPapan tidak kosong
+F.S : papan.isiPapan kosong
+*/
 
-//tukar giliran
 void tukarGiliranPertama();
+/* Prosedur yang digunakan untuk menukar giliran pertama ketika bermain game tersebut dengan cara menukar nama dan poinnya juga
+IS: pemain1.nama, pemain1.poin, pemain2.nama, pemain2.poin, belum ditukar
+FS: pemain1.nama, pemain1.poin, pemain2.nama, pemain2.poin sudah ditukar
+*/
 
 void resetNamaPemain();
+/* Prosedur yang berguna untuk mereset variabel pemain1.nama dan pemain2.nama = NULL
+I.S: pemain1.nama dan pemain2.nama berisi nama
+F.S: pemain1.nama dan pemain2.nama menjadi kosong
+*/
 
 void inputOpsiMenu(int *inpt);
 /* Modul ini untuk memasukan nilai ke dalam variabel opsi untuk yang di tampilkan di layar
@@ -158,7 +222,10 @@ F.S : Nilai variabel opsi sudah terdefinisi
 */
 
 void gotoxy(int x, int y);
-//untuk mengatur posisi printf di cmd
+/* Prosedur untuk memindahkan posisi pointer printf di dalam cmd
+I.S: Pointer printf tidak berpindah
+F.S: Pointer printf berpindah
+*/
 
 int main() {
 	do{
