@@ -227,6 +227,10 @@ I.S: Pointer printf tidak berpindah
 F.S: Pointer printf berpindah
 */
 
+void saveToFile();
+
+void getFromFile();
+
 int main() {
 	do{
 		game.namaTerisi = 0;
@@ -241,7 +245,9 @@ int main() {
 				menuJumlahPemain();
 				break;
 			case 2:
-				
+				getFromFile();
+				papanKosong();
+				mulaiPermainan();
 				break;
 			case 3:
 				menuCaraBermain();
@@ -482,6 +488,7 @@ void menuJumlahPemain() {
 void mulaiPermainan() {
 	//inisial statenya tapi nanti dibuat modul
 	nilaiAwal();
+	
 //	inputNamaPemain(pemain1, pemain2);
 	if(game.namaTerisi == 0){
 	tampilkanInputPemain(pemain1, pemain2);
@@ -499,8 +506,8 @@ void mulaiPermainan() {
 	do {
 	
 		isiPapan(game.tanda);
-		gantiGiliran();
 		tampilkanPapan();
+		gantiGiliran();
 	} while(game.menang != 1 && game.papanTerisi < game.modePermainan * game.modePermainan);
 	
 	Sleep(2);
@@ -524,6 +531,7 @@ void menuPemenang() {
 			break;
 		case 2:
 			resetNamaPemain();
+			saveToFile();
 			main();
 			break;
 		default:
@@ -556,7 +564,8 @@ void nilaiAwal() {
 
 void isiPapan(char tanda) {
 	int baris, kolom;
-	int isValid,ukuran = game.modePermainan;                                  
+	int isValid,ukuran = game.modePermainan; 
+	waktuHabis = 0;                                 
 	
 	isValid = 0;
 	game.batasWaktu = 10;
@@ -592,13 +601,8 @@ void *timer(void *arg) {
   int i=0,ukuran = game.modePermainan;
   
   while (game.batasWaktu >= 0 && stop_thread == 0) {
-  if (i==0){
-		gotoxy(0, ukuran*3 + 11); //12  
+		gotoxy(1, ukuran*3 + 11); //12  
     	printf("Waktu Anda Tersisa[%d]: ", game.batasWaktu);		
-		}else{
-		gotoxy(0, ukuran*3 + 11);//12   
-    	printf("Waktu Anda Tersisa[%d]: ", game.batasWaktu);
-    	}
 	sleep(1);
     game.batasWaktu--;
     i++;    	
@@ -715,4 +719,47 @@ void gotoxy(int x, int y){
 	coord.X = x;
 	coord.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+}
+
+void saveToFile() {
+	int i,j;
+	int iPointer = 5;
+	
+	
+	FILE *outfile;
+	outfile = fopen("save.dat", "wb");
+	
+	fseek(outfile, 0, SEEK_SET);
+	fprintf(outfile, "%d %d %d", game.skorTertinggi, game.modePermainan, game.namaTerisi);
+
+	for(i = 0;i < game.modePermainan;i++) {
+		for(j = 0; j < game.modePermainan;j++) {
+			fseek(outfile, iPointer++, SEEK_SET);
+			fprintf(outfile, "%c", papan.isiPapan[i][j]);
+		}
+	}
+	
+	fclose(outfile);
+}
+
+void getFromFile() {
+	int i,j;
+	int tes;
+	int iPointer = 5;
+	
+	FILE *infile;
+	infile = fopen("save.dat", "rb");
+	
+	fseek(infile, 0, SEEK_SET);
+	fscanf(infile, "%d %d %d", &game.skorTertinggi, &game.modePermainan, &game.namaTerisi);
+	
+	for(i = 0; i < game.modePermainan;i++) {
+		for(j = 0;j < game.modePermainan;j++) {
+			fseek(infile, iPointer++, SEEK_SET);
+			papan.isiPapan[i][j] = getc(infile);
+			printf("%c", papan.isiPapan[i][j]);
+		}
+	}
+	
+	fclose(infile);
 }
