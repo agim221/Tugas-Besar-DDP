@@ -607,7 +607,7 @@ void *timer(void *arg) {
   int ukuran = game.modePermainan;
   
   while (game.batasWaktu >= 0 && stop_thread == 0) {
-	gotoxy(1, ukuran*3 + 11);//12   
+	gotoxy(1, ukuran*3 + 11);
     printf("Waktu Anda Tersisa[%d]: ", game.batasWaktu);
 	sleep(1);
     game.batasWaktu--;	
