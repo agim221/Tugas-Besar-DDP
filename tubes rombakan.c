@@ -227,9 +227,16 @@ I.S: Pointer printf tidak berpindah
 F.S: Pointer printf berpindah
 */
 
-void saveToFile();
-
-void getFromFile();
+void saveHighscore();
+/* Prosedur untuk menyimpan highscore
+I.S: Tidak menyimpan data skortertinggi
+F.S: Menyimpan data skortertinggi
+*/
+void openHighscore();
+/* Prosedur untuk mengaskses data highscore yang tersimpan
+I.S : Belum mengaskes data highscore yang tersimpan
+F.S : Mengakses data highscore yang tersimpan
+*/
 
 int main() {
 	do{
@@ -241,13 +248,13 @@ int main() {
 		inputOpsiMenu(&opsi);
 		system("cls");
 		switch(opsi) {
-			case 1: 
+			case 1:	 
 				menuJumlahPemain();
+				game.skorTertinggi = 0;
 				break;
 			case 2:
-				getFromFile();
-				papanKosong();
-				mulaiPermainan();
+				openHighscore();
+				menuJumlahPemain();
 				break;
 			case 3:
 				menuCaraBermain();
@@ -393,9 +400,9 @@ void tampilkanPapan() {
 		
 	gotoxy(48 - ukuran, ukuran*3 + 6);printf("%s", &pemain1.nama);
 	gotoxy(42 + ukuran*6 + ukuran/3, ukuran*3 + 6); printf("%s", &pemain2.nama);
-	gotoxy(50-ukuran, ukuran*3 + 7);printf("%d", pemain1.skor);
-	gotoxy(43+ukuran*6 + ukuran/3, ukuran*3 + 7);printf("%d", pemain2.skor);
-	gotoxy(42 + ukuran*3 + ukuran, ukuran*3 + 8);printf("%d", game.skorTertinggi);
+	gotoxy(46-ukuran, ukuran*3 + 7);printf("Skor: %d", pemain1.skor);
+	gotoxy(40+ukuran*6 + ukuran/3, ukuran*3 + 7);printf("Skor: %d", pemain2.skor);
+	gotoxy(35 + ukuran*3 + ukuran, ukuran*3 + 9);printf("Skor Tertinggi :%d", game.skorTertinggi);
 }
 
 void tampilkanOpsiCaraBermain() {
@@ -486,9 +493,7 @@ void menuJumlahPemain() {
 }
 
 void mulaiPermainan() {
-	//inisial statenya tapi nanti dibuat modul
-	nilaiAwal();
-	
+	 nilaiAwal();
 //	inputNamaPemain(pemain1, pemain2);
 	if(game.namaTerisi == 0){
 	tampilkanInputPemain(pemain1, pemain2);
@@ -506,8 +511,8 @@ void mulaiPermainan() {
 	do {
 	
 		isiPapan(game.tanda);
-		tampilkanPapan();
-		gantiGiliran();
+		gantiGiliran();	
+		tampilkanPapan();	
 	} while(game.menang != 1 && game.papanTerisi < game.modePermainan * game.modePermainan);
 	
 	Sleep(2);
@@ -515,12 +520,12 @@ void mulaiPermainan() {
 	
 	if(game.pemainAktif == 2) game.pemenang= pemain1.nama;
 	else game.pemenang = pemain2.nama;
-	
 	menuPemenang();
 }
 
 void menuPemenang() {
 	tampilkanPemenang();
+	saveHighscore();
 	inputOpsiMenu(&opsi);
 	system("cls");
 	switch(opsi) {
@@ -531,7 +536,8 @@ void menuPemenang() {
 			break;
 		case 2:
 			resetNamaPemain();
-			saveToFile();
+			pemain1.skor=0;
+			pemain2.skor=0;
 			main();
 			break;
 		default:
@@ -564,9 +570,9 @@ void nilaiAwal() {
 
 void isiPapan(char tanda) {
 	int baris, kolom;
-	int isValid,ukuran = game.modePermainan; 
-	waktuHabis = 0;                                 
+	int isValid,ukuran = game.modePermainan;                                  
 	
+	waktuHabis=0;
 	isValid = 0;
 	game.batasWaktu = 10;
 	
@@ -598,17 +604,15 @@ void isiPapan(char tanda) {
 
 void *timer(void *arg) {
   // Inisialisasi variabel
-  int i=0,ukuran = game.modePermainan;
+  int ukuran = game.modePermainan;
   
   while (game.batasWaktu >= 0 && stop_thread == 0) {
-		gotoxy(1, ukuran*3 + 11); //12  
-    	printf("Waktu Anda Tersisa[%d]: ", game.batasWaktu);		
+	gotoxy(1, ukuran*3 + 11);//12   
+    printf("Waktu Anda Tersisa[%d]: ", game.batasWaktu);
 	sleep(1);
-    game.batasWaktu--;
-    i++;    	
+    game.batasWaktu--;	
 	}
 	if (stop_thread == 1){
-		pthread_cancel(timer_bariskolom);
 		return NULL;
 		}else{
 		waktuHabis = 1;
@@ -721,45 +725,18 @@ void gotoxy(int x, int y){
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
 }
 
-void saveToFile() {
-	int i,j;
-	int iPointer = 5;
+void saveHighscore(){
+	FILE *datasaveHS;
 	
-	
-	FILE *outfile;
-	outfile = fopen("save.dat", "wb");
-	
-	fseek(outfile, 0, SEEK_SET);
-	fprintf(outfile, "%d %d %d", game.skorTertinggi, game.modePermainan, game.namaTerisi);
-
-	for(i = 0;i < game.modePermainan;i++) {
-		for(j = 0; j < game.modePermainan;j++) {
-			fseek(outfile, iPointer++, SEEK_SET);
-			fprintf(outfile, "%c", papan.isiPapan[i][j]);
-		}
-	}
-	
-	fclose(outfile);
+	datasaveHS = fopen("Highscore.dat","wb");
+	fprintf(datasaveHS,"%d",game.skorTertinggi);
+	fclose(datasaveHS);
 }
 
-void getFromFile() {
-	int i,j;
-	int tes;
-	int iPointer = 5;
+void openHighscore(){
+	FILE *dataopenHS;
 	
-	FILE *infile;
-	infile = fopen("save.dat", "rb");
-	
-	fseek(infile, 0, SEEK_SET);
-	fscanf(infile, "%d %d %d", &game.skorTertinggi, &game.modePermainan, &game.namaTerisi);
-	
-	for(i = 0; i < game.modePermainan;i++) {
-		for(j = 0;j < game.modePermainan;j++) {
-			fseek(infile, iPointer++, SEEK_SET);
-			papan.isiPapan[i][j] = getc(infile);
-			printf("%c", papan.isiPapan[i][j]);
-		}
-	}
-	
-	fclose(infile);
+	dataopenHS = fopen("Highscore.dat","rb");
+	fscanf(dataopenHS,"%d",&game.skorTertinggi);
+	fclose(dataopenHS);
 }
