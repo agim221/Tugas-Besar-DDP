@@ -402,7 +402,7 @@ void tampilkanPapan() {
 	gotoxy(42 + ukuran*6 + ukuran/3, ukuran*3 + 6); printf("%s", &pemain2.nama);
 	gotoxy(46-ukuran, ukuran*3 + 7);printf("Skor: %d", pemain1.skor);
 	gotoxy(40+ukuran*6 + ukuran/3, ukuran*3 + 7);printf("Skor: %d", pemain2.skor);
-	gotoxy(35 + ukuran*3 + ukuran, ukuran*3 + 9);printf("Skor Tertinggi :%d", game.skorTertinggi);
+	gotoxy(33 + ukuran*3 + ukuran, ukuran*3 + 9);printf("Skor Tertinggi :%d", game.skorTertinggi);
 }
 
 void tampilkanOpsiCaraBermain() {
