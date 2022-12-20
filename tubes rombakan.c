@@ -38,6 +38,11 @@ Game game;
 Papan papan;
 Pemain pemain1;
 Pemain pemain2;
+
+game.namaTerisi = 0;
+game.ronde = 1;
+inProgram = 1;
+
 int opsi; //variabel untuk memilih opsi yang ditampilkan
 pthread_t timer_bariskolom; //Deklarasi thread
 int stop_thread=0; 
@@ -242,9 +247,6 @@ F.S : Mengakses data highscore yang tersimpan
 
 int main() {
 	do{
-		game.namaTerisi = 0;
-		game.ronde = 1;
-		inProgram = 1;
 	
 		tampilkanMenu();
 		inputOpsiMenu(&opsi);
