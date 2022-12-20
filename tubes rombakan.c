@@ -278,7 +278,7 @@ int main() {
 	} while(inProgram == 1);
 		return 0;
 }
- 
+
 void tampilkanMenu() {
 	gotoxy(40,2);printf(" ========================================= ");
 	gotoxy(40,3);printf("|         ________   __     _____         |");
@@ -303,6 +303,7 @@ void tampilkanMenu() {
 	gotoxy(40,22);printf("2. Lanjutkan Permainan");
 	gotoxy(40,23);printf("3. Cara Bermain");
 	gotoxy(40,24);printf("0. Keluar");
+	//Algoritma menampilkan ui Menu awal kepada user
 }
 
 void tampilkanOpsiJumlahPemain() {
@@ -331,6 +332,7 @@ void tampilkanOpsiJumlahPemain() {
 	gotoxy(40,24);printf(" ========================================= ");
 	gotoxy(40,25);printf("||               Jumlah Pemain           ||");
 	gotoxy(40,26);printf(" ========================================= ");
+	//Algoritma menampilkan ui pilihan jumlah pemain ke user
 }
 
 void tampilkanOpsiModePermainan() {
@@ -357,8 +359,9 @@ void tampilkanOpsiModePermainan() {
 	gotoxy(40,22);printf("|||||||||                         |||||||||");
 	gotoxy(40,23);printf("||||||||||                       ||||||||||");
 	gotoxy(40,24);printf(" ========================================= ");
-	gotoxy(40,25);printf("||               Jumlah Pemain           ||");
+	gotoxy(40,25);printf("||            Mode Permainan             ||");
 	gotoxy(40,26);printf(" ========================================= ");
+	//Algoritma menampilkan ui pilihan mode permainan ke user
 }
 
 void tampilkanInputPemain(Pemain pemain1, Pemain pemain2) {
@@ -374,6 +377,7 @@ void tampilkanInputPemain(Pemain pemain1, Pemain pemain2) {
 	gotoxy(40,11);printf(" ========================================= ");
 	gotoxy(40,12);printf("||              Nama Pemain              ||");
 	gotoxy(40,13);printf(" ========================================= ");
+	//Algoritma menampilkan ui input nama pemain ke user
 }
 
 void tampilkanPapan() {
