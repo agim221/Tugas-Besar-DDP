@@ -412,11 +412,11 @@ void tampilkanOpsiCaraBermain() {
 	gotoxy(40,5);printf("||                                                                 ||");
 	gotoxy(40,6);printf("|| 1.Game dimulai dengan papan kosong berukuran 3x3, 5x5, atau 7x7 ||");
 	gotoxy(40,7);printf("||   (tergantung pada variasi yang dipilih).                       ||");
-	gotoxy(40,8);printf("|| 2.Pemain 1 dan pemain 2 bergantian menempatkan bidak mereka     ||");
-	gotoxy(40,9);printf("||   (X atau O) pada papan, satu bidak per giliran dan akan diwaktu||");
-	gotoxy(40,10);printf("||  selama 10 detik, jika melebihi maka akan diisi bidak secara    ||");
-	gotoxy(40,11);printf("||  acak.                                                          ||");
-	gotoxy(40,12);printf("|| 3.Bidak ditempatkan pada kotak kosong di papan.                 ||");
+	gotoxy(40,8);printf("|| 2.Pemain pertama menginputkan baris dan kolom. Pemain 1 dan     ||");
+	gotoxy(40,9);printf("||   pemain 2 bergantian menempatkan simbol mereka (X atau O) pada ||");
+	gotoxy(40,10);printf("||   papan, satu simbol per giliran dan akan diwaktu selama 10     ||");
+	gotoxy(40,11);printf("||   detik, jika melebihi maka akan diisi secara acak.             ||");
+	gotoxy(40,12);printf("|| 3.Simbol ditempatkan pada kotak kosong di papan.                ||");
 	gotoxy(40,13);printf("|| 4.Pemain yang berhasil menempatkan bidaknya secara berurutan    ||");
 	gotoxy(40,14);printf("||   pada baris, kolom, atau diagonal papan menang (Untuk 3x3      ||");
 	gotoxy(40,15);printf("||   3 bidak berurutan, untuk 5x5 4 bidak berurutan dan untuk 7x7  ||");
