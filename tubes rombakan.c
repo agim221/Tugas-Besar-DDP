@@ -417,10 +417,10 @@ void tampilkanOpsiCaraBermain() {
 	gotoxy(40,10);printf("||   papan, satu simbol per giliran dan akan diwaktu selama 10     ||");
 	gotoxy(40,11);printf("||   detik, jika melebihi maka akan diisi secara acak.             ||");
 	gotoxy(40,12);printf("|| 3.Simbol ditempatkan pada kotak kosong di papan.                ||");
-	gotoxy(40,13);printf("|| 4.Pemain yang berhasil menempatkan bidaknya secara berurutan    ||");
+	gotoxy(40,13);printf("|| 4.Pemain yang berhasil menempatkan simbolnya secara berurutan   ||");
 	gotoxy(40,14);printf("||   pada baris, kolom, atau diagonal papan menang (Untuk 3x3      ||");
-	gotoxy(40,15);printf("||   3 bidak berurutan, untuk 5x5 4 bidak berurutan dan untuk 7x7  ||");
-	gotoxy(40,16);printf("||   5 bidak berurutan).                                           ||");
+	gotoxy(40,15);printf("||   3 simbol berurutan, untuk 5x5 4 simbol berurutan dan untuk 7x7||");
+	gotoxy(40,16);printf("||   5 simbol berurutan).                                          ||");
 	gotoxy(40,17);printf("|| 5.Jika tidak ada kotak kosong tersisa dan tidak ada pemain yang ||");
 	gotoxy(40,18);printf("||   menang, game berakhir dengan hasil seri.                      ||");
 	gotoxy(40,19);printf("|| 6.Pemain bisa melanjutkan permainan atau tidak.                 ||");
