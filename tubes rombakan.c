@@ -1,4 +1,9 @@
-//Jangan lupa author
+/* 
+Program : TicTacToe.c
+Deskripsi Program : Permainan Tic Tac Toe
+Author : Ferdi.A.A, M.Agim, M.Fahri.Y.D
+Tanggal : 20/12/2022
+*/
 
 #include<stdio.h>
 #include<stdlib.h>
