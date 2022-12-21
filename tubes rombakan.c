@@ -679,11 +679,13 @@ void isiPapan(char tanda) {
 				checkWin(baris - 1, kolom - 1, game.syaratMenang);
 				isValid = 1;
 				}else {
-					//jika sudah terisi
-					//printf("Kotak sudah terisi");
-					//jika diluar papan
-					//printf("Berada di luar papan !")
-				gotoxy(1, 24 + game.modePermainan);printf("\nTidak valid\n");
+					if(papan.isiPapan[baris-1][kolom-1] == 'X' || papan.isiPapan[baris-1][kolom-1] == 'O') {
+						gotoxy(0, 24 + game.modePermainan);
+						printf("Kotak sudah terisi");
+					} else if(baris > game.modePermainan || kolom > game.modePermainan) {
+						gotoxy(0, 24 + game.modePermainan);
+						printf("Berada di Luar Papan !");
+					}
 				}
 	}while(isValid != 1);
 }
