@@ -597,11 +597,18 @@ void mulaiPermainan() {
 }
 
 void menuPemenang() {
-	tampilkanPemenang();
+	do {
+		tampilkanPemenang();
+		inputOpsiMenu(&opsi);
+		system("cls");
+		if(atoi(&opsi) == 0) {
+			gotoxy(0,30);printf("Mohon Pilih Opsi Menu yang Tersedia");
+		}
+	} while(atoi(&opsi) == 0);
+	
 	saveHighscore();
-	inputOpsiMenu(&opsi);
-	system("cls");
-	switch(opsi) {
+	
+	switch(atoi(&opsi)) {
 		case 1: 
 			tukarGiliranPertama();
 			game.ronde++;
