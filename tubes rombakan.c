@@ -46,7 +46,7 @@ Pemain pemain2;
 
 inProgram = 1;
 
-int opsi; //variabel untuk memilih opsi yang ditampilkan
+char opsi; //variabel untuk memilih opsi yang ditampilkan
 pthread_t timer_bariskolom; //Deklarasi thread
 int stop_thread=0; 
 int waktuHabis=0; 
@@ -111,6 +111,12 @@ void tampilkanPemenang();
 /* Prosedur yang akan menampilkan pemenang dari game tersebut
 I.S: belum menampilkan
 F.S: menampilkan tampilan pemenang
+*/
+
+void tampilkanYakinKeluar();
+/* Prosedur yang akan menampilkan yakin atau tidak nya user keluar dari game tersebut
+I.S: belum menampilkan
+F.S: menampilkan tampilan apakah yakin ingin keluar dari game
 */
 
 void menuModePermainan();
@@ -270,7 +276,7 @@ int main() {
 				menuCaraBermain();
 				break; 
 			case 0:
-				inProgram = 0;
+				menuYakinKeluar();
 				break;
 			default:
 				gotoxy(1, 26);printf("\nTidak Valid");
@@ -443,9 +449,12 @@ void tampilkanOpsiCaraBermain() {
 	gotoxy(40,22);printf("|| 8.Jika skor menang pemain lebih tinggi dari skor tertinggi yang ||");
 	gotoxy(40,23);printf("||   sebelumnya, maka skor tertinggi akan digantikan.              ||");
 	gotoxy(40,24);printf("||                                                                 ||");
-	gotoxy(40,25);printf(" =================================================================== ");
-	gotoxy(40,26);printf("||                         Panduan Bermain                         ||");
-	gotoxy(40,27);printf(" =================================================================== ");
+	gotoxy(40,25);printf("||                                                                 ||");
+	gotoxy(40,26);printf("||                                                                 ||");
+	gotoxy(40,27);printf("|| 0. Kembali                                                      ||");
+	gotoxy(40,28);printf(" =================================================================== ");
+	gotoxy(40,29);printf("||                         Panduan Bermain                         ||");
+	gotoxy(40,30);printf(" =================================================================== ");
 }
 
 void tampilkanPemenang() {
@@ -453,6 +462,15 @@ void tampilkanPemenang() {
 	gotoxy(57, 4); printf("%s menang", &game.pemenang);
 	gotoxy(35, 6); printf(" ============================================================");
 	gotoxy(54, 10); printf("Apakah ingin bermain lagi ?");
+	gotoxy(62, 12); printf("1. Ya");
+	gotoxy(62, 14); printf("2. Tidak");
+	gotoxy(35, 18); printf(" ============================================================");
+}
+
+void tampilkanYakinKeluar() {
+	gotoxy(35, 2); printf(" ============================================================");
+	gotoxy(35, 6); printf(" ============================================================");
+	gotoxy(54, 10); printf("Apakah yakin ingin keluar ?");
 	gotoxy(62, 12); printf("1. Ya");
 	gotoxy(62, 14); printf("2. Tidak");
 	gotoxy(35, 18); printf(" ============================================================");
@@ -503,6 +521,24 @@ void menuJumlahPemain() {
 		default: 
 			gotoxy(1, 28);printf("\nTidak Valid");
 			menuJumlahPemain();
+	}
+}
+
+void menuYakinKeluar(){
+	tampilkanYakinKeluar();
+	inputOpsiMenu(&opsi);
+	system("cls");
+	switch (opsi)
+	{
+	case 1: inProgram = 0;
+		break;
+	
+	case 2: main();
+		break;
+	default: 
+		gotoxy(1, 26);printf("\nTidak Valid");
+		menuYakinKeluar();
+		break;
 	}
 }
 
@@ -563,6 +599,7 @@ void menuPemenang() {
 void menuCaraBermain() {
 	tampilkanOpsiCaraBermain();
 	inputOpsiMenu(&opsi);
+	system("cls");
 	switch(opsi) {
 		case 0: 
 			main();
@@ -611,6 +648,10 @@ void isiPapan(char tanda) {
 				checkWin(baris - 1, kolom - 1, game.syaratMenang);
 				isValid = 1;
 				}else {
+					//jika sudah terisi
+					//printf("Kotak sudah terisi");
+					//jika diluar papan
+					//printf("Berada di luar papan !")
 				gotoxy(1, 24 + game.modePermainan);printf("\nTidak valid\n");
 				}
 	}while(isValid != 1);
@@ -730,6 +771,7 @@ void resetNamaPemain(){
 void inputOpsiMenu(int *inpt) {
 	printf("\n\nPilih Opsi Menu : ");
 	scanf("%d", &(*inpt));
+	getchar();
 }
 
 void gotoxy(int x, int y){
