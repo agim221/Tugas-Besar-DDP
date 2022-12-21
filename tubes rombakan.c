@@ -278,21 +278,21 @@ int main() {
 		} while(atoi(&opsi) == 0);
 		
 		switch(atoi(&opsi)) {
-			case 1:	 
-				menuJumlahPemain();
+			case 1:	//pemain masuk ke ui menu Jumlah Pemain
+				menuJumlahPemain(); 
 				game.skorTertinggi = 0;
 				break;
-			case 2:
+			case 2: //pemain masuk ke ui menu lanjutkan bermain
 				openHighscore();
 				menuJumlahPemain();
 				break;
-			case 3:
+			case 3: //pemain masuk ke ui panduan bermain
 				menuCaraBermain();
 				break; 
-			case 99:
+			case 99://pemain masuk ke ui keluar game
 				menuYakinKeluar();
 				break;
-			default:
+			default://pemain diminta masukkan lagi karena tidak sesuai dengan opsi yang ada
 				gotoxy(1, 26);printf("\nTidak Valid");
 		}
 	} while(inProgram == 1);
