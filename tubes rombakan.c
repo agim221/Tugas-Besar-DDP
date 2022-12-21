@@ -262,12 +262,21 @@ F.S : Mengakses data highscore yang tersimpan
 */
 
 void prosesPermainan();
+/* Prosedur untuk menjalankan proses permainan
+I.S : Belum menjalankan proses permainan
+F.S : menjalankan proses permainan
+*/
 
 int main() {
+	
+	//lakukan perulangan selama tidak keluar program
 	do{
 		game.namaTerisi = 0;
+		//inisialisasi status nama belum terisi
 		game.ronde = 1;
+		//inisialisasi status ronde permainan baru
 		
+		//lakukan perulangan selama belum memasukan angka
 		do {
 			tampilkanMenu();
 			inputOpsiMenu(&opsi);
@@ -277,6 +286,7 @@ int main() {
 			}
 		} while(atoi(&opsi) == 0);
 		
+		//switch case memilih menu
 		switch(atoi(&opsi)) {
 			case 1:	//pemain masuk ke ui menu Jumlah Pemain
 				menuJumlahPemain(); 
@@ -298,6 +308,7 @@ int main() {
 	} while(inProgram == 1);
 		return 0;
 }
+//menu utama dalam game tik tak toe
 
 void tampilkanMenu() {
 	gotoxy(40,2);printf(" ========================================= ");
@@ -401,12 +412,10 @@ void tampilkanInputPemain(Pemain pemain1, Pemain pemain2) {
 }
 
 void tampilkanPapan() {
-	int i, j;
-	int k, l;
-	int ukuran = game.modePermainan;
-	int geserKanan;
-	//variabel i dan j menunjukkan baris dan kolom yang akan dibuat
-	//variabel geser kanan adalah menggeser tampilan agar tidak bertabrakan
+	int i, j; // i sebagai panjang garis atas dan bawah; j sebagai panjang garis kanan kiri
+	int k, l; // k sebagai index baris dan l sebagai index kolom papan.isiPapan
+	int ukuran = game.modePermainan; //ukuran mode permainan
+	int geserKanan;  //sebagai penggeser printf agar tidak tertimpa printf lainnya
 	
 	gotoxy(43 + ukuran*3, 1);
 	printf("Ronde %d",game.ronde);
@@ -492,9 +501,10 @@ void tampilkanYakinKeluar() {
 }
 
 void menuModePermainan() {
+	//lakukan perulangan selama belum memasukan angka
 	do{
 		tampilkanOpsiModePermainan();
-		//masuk ke ui pilihan mode permainan
+		//menampilkan ui pilihan mode permainan
 		inputOpsiMenu(&opsi);
 		system("cls");
 		if(atoi(&opsi) == 0) {
@@ -502,32 +512,34 @@ void menuModePermainan() {
 		}
 	} while(atoi(&opsi) == 0);
 	
+	//swtich case untuk memilih ukuran papan
 	switch(atoi(&opsi)) {
-		case 1: //mengirim parameter agar nanti papan dibuat 3x3
+		case 1: 
 			game.modePermainan = 3;
 			mulaiPermainan();
 			break;
-		case 2: //mengirim parameter agar nanti papan dibuat 5x5
+		case 2:
 			game.modePermainan = 5;
 			 mulaiPermainan();
 			break;
-		case 3: //mengirim parameter agar nanti papan dibuat 7x7
+		case 3:
 			game.modePermainan = 7;
 			mulaiPermainan();
 			break;
-		case 99: //kembali ke ui pilihan jumlah pemain
+		case 99: 
 			game.jumlahPemain = 0;
 			menuJumlahPemain();
-		default: //masukkan tidak valid, user diminta memasukkan lagi
+		default:
 			gotoxy(1, 28);printf("\nTidak Valid");
 			return menuModePermainan(); 
 	} 
 }
 
 void menuJumlahPemain() {
+	//lakukan perulangan selama belum memasukan angka
 	do {
 		tampilkanOpsiJumlahPemain();
-		//masuk ke tampilan ui pilihan jumlah pemain
+		//menampilkan pilihan jumlah pemain
 		inputOpsiMenu(&opsi);
 		system("cls");
 		if(atoi(&opsi) == 0) {
@@ -535,27 +547,30 @@ void menuJumlahPemain() {
 		}
 	} while (atoi(&opsi) == 0);
 	
+	//switch case untuk memiilih jumlah pemain
 	switch(atoi(&opsi)) {
-		case 1: //mengirim parameter jumlah pemain menjadi melawan komputer
+		case 1:
 			game.jumlahPemain = 1;
 			menuModePermainan();
 			break;
-		case 2: //mengirim parameter jumlah pemain menjadi melawan player lain
+		case 2:
 			game.jumlahPemain = 2;
 			menuModePermainan();
 			break;
-		case 99: //kembali ke ui menu utama
+		case 99:
 			main();
 			break;
-		default: //masukkan tidak valid, user diminta memasukkan lagi
+		default: 
 			gotoxy(1, 28);printf("\nTidak Valid");
 			menuJumlahPemain();
 	}
 }
 
 void menuYakinKeluar(){
+	//lakukan perulangan selama belum memasukan angka
 	do {
 		tampilkanYakinKeluar();
+		//menampilkan tampilan menu yakin keluar
 		inputOpsiMenu(&opsi);
 		system("cls");
 		if(atoi(&opsi) == 0) {
@@ -563,14 +578,15 @@ void menuYakinKeluar(){
 		}
 	} while(atoi(&opsi) == 0);
 	
+	//switch case untuk meyakinkan apakah yakin ingin keluar atau tidak
 	switch (atoi(&opsi))
 	{
-	case 1: inProgram = 0; //variabel sebagai parameter jika menjadi 0, maka program akan berhenti
+	case 1: inProgram = 0;
 		break;
 	
-	case 2: main(); //kembali ke ui menu utama
+	case 2: main();
 		break;
-	default://masukkan tidak valid, user diminta memasukkan lagi
+	default: 
 		gotoxy(1, 26);printf("\nTidak Valid");
 		menuYakinKeluar();
 		break;
@@ -579,20 +595,23 @@ void menuYakinKeluar(){
 
 void mulaiPermainan() {
 	 nilaiAwal();
-	//nilaiAwal() untuk mereset papan kedalam keadaan awal atau kosong
+	//nilaiAwal() untuk mereset papan kedalam keadaan kosong dan mereset data permainan
 	if(game.namaTerisi == 0){
-	tampilkanInputPemain(pemain1, pemain2);
-   	gotoxy(1,14);inputNamaPemain1(&pemain1);
-    tampilkanInputPemain(pemain1, pemain2);
-    gotoxy(1,15);inputNamaPemain2(&pemain2);
-    tampilkanInputPemain(pemain1, pemain2);
-    game.namaTerisi = 1;
-    sleep(1);
+		tampilkanInputPemain(pemain1, pemain2);
+   		gotoxy(1,14);inputNamaPemain1(&pemain1);
+   		tampilkanInputPemain(pemain1, pemain2);
+    		gotoxy(1,15);inputNamaPemain2(&pemain2);
+    		tampilkanInputPemain(pemain1, pemain2);
+    		game.namaTerisi = 1; //variabel yang menandakan nama pemain sudah terisi
+    		sleep(1);
 	}
+	//proses memasukan input nama pemain
+	
     system("cls");
     
 	tampilkanPapan();
 	
+	//lakukan perulangan selama belum ada pemenang atau papan penuh
 	do {
 		prosesPermainan();	
 	} while(game.menang != 1 && game.papanTerisi < game.modePermainan * game.modePermainan);
@@ -608,7 +627,7 @@ void mulaiPermainan() {
 
 void menuPemenang() {
 	do {
-		tampilkanPemenang(); //menampilkan pemenang ronde
+		tampilkanPemenang();
 		inputOpsiMenu(&opsi);
 		system("cls");
 		if(atoi(&opsi) == 0) {
@@ -618,6 +637,8 @@ void menuPemenang() {
 	
 	saveHighscore();
 	//menyimpan highscore permainan
+	
+	//switch case untuk memilih mulai permainan lagi atau kembali ke menu utama
 	switch(atoi(&opsi)) {
 		case 1: 
 			tukarGiliranPertama();
@@ -637,6 +658,7 @@ void menuPemenang() {
 }
 
 void menuCaraBermain() {
+	//lakukan perulangan sebelum memasukan angka
 	do {
 		tampilkanOpsiCaraBermain();
 		inputOpsiMenu(&opsi);
@@ -664,16 +686,17 @@ void nilaiAwal() {
 	game.papanTerisi = 0;
 	papanKosong();
 } 
+//nilai inisial state ketika permainan baru
 
 void isiPapan(char tanda) {
 	int baris, kolom;
 	int isValid,ukuran = game.modePermainan;                                  
 	
-	waktuHabis=0;
-	isValid = 0;
-	game.batasWaktu = 10;
+	waktuHabis=0;  //variabel timer untuk random generator angka
+	isValid = 0;   // variabel untuk menandakan apakah sudah memasukan baris kolom yang valid
+	game.batasWaktu = 10;  // batas waktu setiap giliran
 	
-	
+	//lakukan perulangan selama belum memasukan masukan yang valid
 	do {
 		stop_thread = 0;
 		gotoxy(0, ukuran*3 + 9);                                  	
@@ -682,11 +705,14 @@ void isiPapan(char tanda) {
 		scanf("%d %d", &baris, &kolom);	
 		stop_thread = 1;		
 		pthread_join(timer_bariskolom,NULL);
+		//multithread untuk timer
 		
 		if (waktuHabis == 1 ) {
 			baris = (rand() % (game.modePermainan - 1 + 1)) + 1;
 			kolom = (rand() % (game.modePermainan - 1 + 1)) + 1;
 		}
+		//random baris dan kolom jika waktu habis
+		
 			if(isValid != 1 && papan.isiPapan[baris - 1][kolom-1] != 'X' && papan.isiPapan[baris-1][kolom-1] != 'O' && baris > 0 && baris <= game.modePermainan && kolom > 0 && kolom <= game.modePermainan) {
 				system("cls");
 				papan.isiPapan[baris - 1][kolom - 1] = tanda;
@@ -704,6 +730,7 @@ void isiPapan(char tanda) {
 				}
 	}while(isValid != 1);
 }
+//prosedur untuk proses pengisian papan
 
 void *timer(void *arg) {
   // Inisialisasi variabel
@@ -724,6 +751,7 @@ void *timer(void *arg) {
 		return NULL;
 		}
   }
+//multithread timer
 
 void inputNamaPemain1(){
 printf ("Nama pemain 1 = ");
@@ -747,6 +775,7 @@ void gantiGiliran() {
 
 void checkWin(int brs, int klm, int syrt) {
 	int i = 0;
+	//lakuakn perulangan selama belum ada yang menang dan syarat menang
 	do {
 		if(game.menang != 1) game.menang = checkWinHorizontal(brs, 0 + i, syrt);
 		if(game.menang != 1) game.menang = checkWinVertikal(0 + i, klm, syrt);
