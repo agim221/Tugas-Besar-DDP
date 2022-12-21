@@ -791,26 +791,31 @@ void checkWin(int brs, int klm, int syrt) {
 	}
 }
 
+//mengecek dari kiri ke kanan secara horizontal
 int checkWinHorizontal(int i, int j, int k) {
 	if(k == 0) return 1;
 	else return (papan.isiPapan[i][j] == game.tanda && checkWinHorizontal(i, j + 1, k - 1));
 }
 
+//mengecek dari atas ke bawah secara vertikal
 int checkWinVertikal(int i, int j, int k) {
 	if(k == 0) return 1;
 	else return (papan.isiPapan[i][j] == game.tanda && checkWinVertikal(i + 1, j, k - 1));
 }
 
+//mengecek dari atas kiri ke kanan bawah secara diagonal
 int checkWinDiagonalKanan(int i, int j, int k) {
 	if(k == 0) return 1;
 	else return (papan.isiPapan[i][j] == game.tanda && checkWinDiagonalKanan(i - 1, j + 1, k - 1));
 }
 
+//mengecek dari kiri bawah ke kanan atas secara diagonal
 int checkWinDiagonalKiri(int i, int j, int k) {
 	if(k == 0) return 1;
 	else return (papan.isiPapan[i][j] == game.tanda && checkWinDiagonalKiri(i + 1, j + 1, k - 1));
 }
 
+//mengecek highscore yang sekarang dengan skor pemain
 void checkHighScore() {
 	if(game.pemainAktif == 1) {
 		if(game.skorTertinggi < pemain1.skor) game.skorTertinggi = pemain1.skor;
@@ -819,6 +824,7 @@ void checkHighScore() {
 	}
 }
 
+//mengosongkan papan
 void papanKosong() {
 	int i, j;
 	for (i = 0; i < game.modePermainan;i++) {
@@ -828,6 +834,7 @@ void papanKosong() {
 	}
 }
 
+//menukar giliran pertama
 void tukarGiliranPertama() {
 	int temp;
 	
@@ -840,6 +847,7 @@ void tukarGiliranPertama() {
 	pemain1.skor = pemain1.skor - pemain2.skor;
 }
 
+//mengosongkan nama pemain
 void resetNamaPemain(){
 	pemain1.nama = NULL;
 	pemain2.nama = NULL;
@@ -850,6 +858,7 @@ void inputOpsiMenu(char *inpt) {
 	scanf("%s", &(*inpt));
 }
 
+//mengatur letak write di layar
 void gotoxy(int x, int y){
 	COORD coord;
 	coord.X = x;
@@ -857,6 +866,7 @@ void gotoxy(int x, int y){
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
 }
 
+//menyimpan data ke dalam file
 void saveHighscore(){
 	FILE *datasaveHS;
 	
@@ -865,6 +875,7 @@ void saveHighscore(){
 	fclose(datasaveHS);
 }
 
+//mengambil data dalam file
 void openHighscore(){
 	FILE *dataopenHS;
 	
@@ -873,6 +884,7 @@ void openHighscore(){
 	fclose(dataopenHS);
 }
 
+//proses utama permainan tik tak toe
 void prosesPermainan() {
 	isiPapan(game.tanda);
 	gantiGiliran();	
