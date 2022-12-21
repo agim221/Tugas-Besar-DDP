@@ -503,22 +503,22 @@ void menuModePermainan() {
 	} while(atoi(&opsi) == 0);
 	
 	switch(atoi(&opsi)) {
-		case 1: 
+		case 1: //mengirim parameter agar nanti papan dibuat 3x3
 			game.modePermainan = 3;
 			mulaiPermainan();
 			break;
-		case 2:
+		case 2: //mengirim parameter agar nanti papan dibuat 5x5
 			game.modePermainan = 5;
 			 mulaiPermainan();
 			break;
-		case 3:
+		case 3: //mengirim parameter agar nanti papan dibuat 7x7
 			game.modePermainan = 7;
 			mulaiPermainan();
 			break;
-		case 99: 
+		case 99: //kembali ke ui pilihan jumlah pemain
 			game.jumlahPemain = 0;
 			menuJumlahPemain();
-		default:
+		default: //masukkan tidak valid, user diminta memasukkan lagi
 			gotoxy(1, 28);printf("\nTidak Valid");
 			return menuModePermainan(); 
 	} 
@@ -536,18 +536,18 @@ void menuJumlahPemain() {
 	} while (atoi(&opsi) == 0);
 	
 	switch(atoi(&opsi)) {
-		case 1:
+		case 1: //mengirim parameter jumlah pemain menjadi melawan komputer
 			game.jumlahPemain = 1;
 			menuModePermainan();
 			break;
-		case 2:
+		case 2: //mengirim parameter jumlah pemain menjadi melawan player lain
 			game.jumlahPemain = 2;
 			menuModePermainan();
 			break;
-		case 99:
+		case 99: //kembali ke ui menu utama
 			main();
 			break;
-		default: 
+		default: //masukkan tidak valid, user diminta memasukkan lagi
 			gotoxy(1, 28);printf("\nTidak Valid");
 			menuJumlahPemain();
 	}
@@ -565,12 +565,12 @@ void menuYakinKeluar(){
 	
 	switch (atoi(&opsi))
 	{
-	case 1: inProgram = 0;
+	case 1: inProgram = 0; //variabel sebagai parameter jika menjadi 0, maka program akan berhenti
 		break;
 	
-	case 2: main();
+	case 2: main(); //kembali ke ui menu utama
 		break;
-	default: 
+	default://masukkan tidak valid, user diminta memasukkan lagi
 		gotoxy(1, 26);printf("\nTidak Valid");
 		menuYakinKeluar();
 		break;
@@ -608,7 +608,7 @@ void mulaiPermainan() {
 
 void menuPemenang() {
 	do {
-		tampilkanPemenang();
+		tampilkanPemenang(); //menampilkan pemenang ronde
 		inputOpsiMenu(&opsi);
 		system("cls");
 		if(atoi(&opsi) == 0) {
