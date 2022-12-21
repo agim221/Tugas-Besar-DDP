@@ -405,7 +405,8 @@ void tampilkanPapan() {
 	int k, l;
 	int ukuran = game.modePermainan;
 	int geserKanan;
-	
+	//variabel i dan j menunjukkan baris dan kolom yang akan dibuat
+	//variabel geser kanan adalah menggeser tampilan agar tidak bertabrakan
 	
 	gotoxy(43 + ukuran*3, 1);
 	printf("Ronde %d",game.ronde);
@@ -466,6 +467,7 @@ void tampilkanOpsiCaraBermain() {
 	gotoxy(40,23);printf(" =================================================================== ");
 	gotoxy(40,24);printf("||                         Panduan Bermain                         ||");
 	gotoxy(40,25);printf(" =================================================================== ");
+	//Algoritma menampilkan ui panduan bermain ke user
 }
 
 void tampilkanPemenang() {
@@ -476,6 +478,7 @@ void tampilkanPemenang() {
 	gotoxy(62, 12); printf("1. Ya");
 	gotoxy(62, 14); printf("2. Tidak");
 	gotoxy(35, 18); printf(" ============================================================");
+	//algoritma menampilkan apakah user ingin bermain lagi
 }
 
 void tampilkanYakinKeluar() {
@@ -485,11 +488,13 @@ void tampilkanYakinKeluar() {
 	gotoxy(62, 12); printf("1. Ya");
 	gotoxy(62, 14); printf("2. Tidak");
 	gotoxy(35, 18); printf(" ============================================================");
+	//algoritma menampilkan apakah user yakin ingin keluar
 }
 
 void menuModePermainan() {
 	do{
 		tampilkanOpsiModePermainan();
+		//masuk ke ui pilihan mode permainan
 		inputOpsiMenu(&opsi);
 		system("cls");
 		if(atoi(&opsi) == 0) {
@@ -522,6 +527,7 @@ void menuModePermainan() {
 void menuJumlahPemain() {
 	do {
 		tampilkanOpsiJumlahPemain();
+		//masuk ke tampilan ui pilihan jumlah pemain
 		inputOpsiMenu(&opsi);
 		system("cls");
 		if(atoi(&opsi) == 0) {
@@ -573,7 +579,7 @@ void menuYakinKeluar(){
 
 void mulaiPermainan() {
 	 nilaiAwal();
-//	inputNamaPemain(pemain1, pemain2);
+	//nilaiAwal() untuk mereset papan kedalam keadaan awal atau kosong
 	if(game.namaTerisi == 0){
 	tampilkanInputPemain(pemain1, pemain2);
    	gotoxy(1,14);inputNamaPemain1(&pemain1);
@@ -597,6 +603,7 @@ void mulaiPermainan() {
 	if(game.pemainAktif == 2) game.pemenang= pemain1.nama;
 	else game.pemenang = pemain2.nama;
 	menuPemenang();
+	//masuk ke ui Pemenang jika permainan sudah ditemukan pemenang atau seri
 }
 
 void menuPemenang() {
@@ -610,7 +617,7 @@ void menuPemenang() {
 	} while(atoi(&opsi) == 0);
 	
 	saveHighscore();
-	
+	//menyimpan highscore permainan
 	switch(atoi(&opsi)) {
 		case 1: 
 			tukarGiliranPertama();
@@ -730,7 +737,7 @@ scanf("%s", &pemain2.nama);
 
 void gantiGiliran() {
 	if(game.pemainAktif == 1) {
-				game.tanda = 'X';
+				game.tanda = 'X'; 
 				game.pemainAktif = 2;
 		} else {
 				game.tanda = 'O';
