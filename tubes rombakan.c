@@ -1,5 +1,6 @@
 /* 
 Program : TicTacToe.c
+Version : 0.3.6.0
 Deskripsi Program : Permainan Tic Tac Toe
 Author : Ferdi.A.A, M.Agim, M.Fahri.Y.D
 Tanggal : 20/12/2022
