@@ -151,6 +151,10 @@ F.S : Menampilkan tampilan menu cara bermain dan disuruh memilih opsi
 */
 
 void menuYakinKeluar();
+/* Prosedur untuk meyakinkan kembali user untuk keluar dari program
+I.S : Tampilan menuYakinKeluar belum muncul
+F.S : Tampilan menuYakinKeluar muncul
+*/
 
 void nilaiAwal();
 /* Prosedur ini adalah prosedur inisialisasi ketika game dimulai
