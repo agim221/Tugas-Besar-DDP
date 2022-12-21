@@ -257,6 +257,8 @@ I.S : Belum mengaskes data highscore yang tersimpan
 F.S : Mengakses data highscore yang tersimpan
 */
 
+void prosesPermainan();
+
 int main() {
 	do{
 		game.namaTerisi = 0;
@@ -582,10 +584,7 @@ void mulaiPermainan() {
 	tampilkanPapan();
 	
 	do {
-	
-		isiPapan(game.tanda);
-		gantiGiliran();	
-		tampilkanPapan();	
+		prosesPermainan();	
 	} while(game.menang != 1 && game.papanTerisi < game.modePermainan * game.modePermainan);
 	
 	Sleep(2);
@@ -832,4 +831,10 @@ void openHighscore(){
 	dataopenHS = fopen("Highscore.dat","rb");
 	fscanf(dataopenHS,"%d",&game.skorTertinggi);
 	fclose(dataopenHS);
+}
+
+void prosesPermainan() {
+	isiPapan(game.tanda);
+	gantiGiliran();	
+	tampilkanPapan();
 }
